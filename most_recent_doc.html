@@ -1,0 +1,2526 @@
+<div id="right_column" style="position:relative;height:100%;width:210px; float:right;">
+    <div id="table_of_contents">
+        <h2>Contents</h2>
+
+        <a href="#introduction">Introduction</a><br/>
+        <a href="#pro_tips">Pro-tips</a><br/>
+        <a href="#get_started">Get Started</a><br/>
+        <a href="#basic_variables">Basic Variables</a><br/>
+        <a href="#navigation">Navigation</a><br/>
+        <a href="#posts">Posts</a><br/>
+            &nbsp; &nbsp; &nbsp; <a href="#reblogs">Reblogs</a><br/>
+            &nbsp; &nbsp; &nbsp; <a href="#text-posts">Text Posts</a><br/>
+            &nbsp; &nbsp; &nbsp; <a href="#photo-posts">Photo Posts</a><br/>
+            &nbsp; &nbsp; &nbsp; <a href="#photoset-posts">Photoset Posts</a><br/>
+            &nbsp; &nbsp; &nbsp; <a href="#quote-posts">Quote Posts</a><br/>
+            &nbsp; &nbsp; &nbsp; <a href="#link-posts">Link Posts</a><br/>
+            &nbsp; &nbsp; &nbsp; <a href="#chat-posts">Chat Posts</a><br/>
+            &nbsp; &nbsp; &nbsp; <a href="#audio-posts">Audio Posts</a><br/>
+            &nbsp; &nbsp; &nbsp; <a href="#video-posts">Video Posts</a><br/>
+            &nbsp; &nbsp; &nbsp; <a href="#answer-posts">Answer Posts</a><br/>
+            &nbsp; &nbsp; &nbsp; <a href="#dates">Dates</a><br/>
+            &nbsp; &nbsp; &nbsp; <a href="#notes">Notes</a><br/>
+            &nbsp; &nbsp; &nbsp; <a href="#tags">Tags</a><br/>
+            &nbsp; &nbsp; &nbsp; <a href="#content-sources">Content Sources</a><br/>
+        <a href="#group-blogs">Group Blogs</a><br/>
+        <a href="#day-pages">Day Pages</a><br/>
+        <a href="#tag-pages">Tag Pages</a><br/>
+        <a href="#localization">Localization</a><br/>
+        <a href="#search">Search</a><br/>
+        <a href="#following">Following</a><br/>
+        <a href="#likes">Likes</a><br/>
+        <a href="#appearance-options">Appearance Options</a><br/>
+        <a href="#twitter">Twitter</a><br/>
+        <a href="#iphone-themes">iPhone Themes</a><br/>
+        <a href="#variable-transformations">Variable Transformations</a><br/>
+    </div>
+</div>
+
+<div id="left_column" style="width:600px;">
+    <h1>
+        How to create a custom HTML theme
+    </h1>
+
+
+    <p>Want to create a custom look for your blog? If you’re comfortable hand-coding HTML, then you’ve come to the right place! If not, choose from hundreds of beautiful themes in the <a href="/themes">Theme Garden</a>.</p>
+
+
+    <h2><a id="introduction" style="margin-top:40px;">Introduction</a></h2>
+
+    <p>Tumblr is built around seven key post types: text, photos, links, quotes, chat, audio, and video. Be sure to customize your theme around these types so that your posts show up beautifully on your blog, on the Dashboards of your followers, and on other blogs when they’re reblogged.</p>
+
+    <h2><a id="pro_tips" style="margin-top:40px;">Pro-tips</a></h2>
+
+    <p>Try to avoid posting external images and embedded media in text posts. It’s less engaging on the Dashboard and can be problematic with custom themes. Instead, create a video post for a video, a photo post for photos, and so on and so forth.</p>
+
+    <h2><a id="get_started" style="margin-top:40px;">Get Started</a></h2>
+
+    <ol>
+        <li>Click the name of your blog at the top of the Dashboard or under the list icon at the top.</li>
+        <li>Click “Customize appearance” on the right column.</li>
+        <li>Click “Edit HTML” below the theme thumbnail on the left.</li>
+    </ol>
+
+    <p>Tumblr has two types of special operators used to render content in your HTML.</p>
+
+    <p><b>Variables</b> are used to insert dynamic data like your blog's title or description:</p>
+
+    <h4 style="margin-bottom:-5px;">Example</h4>
+
+    <pre>
+&lt;html>
+    &lt;head>
+        &lt;title><b class="variable">{Title}</b>&lt;/title>
+    &lt;/head>
+    &lt;body>
+        ...
+    &lt;/body>
+&lt;/html>
+</pre>
+
+    <p><b>Blocks</b> are either used to render a block of HTML for a set of data (like your posts), or to conditionally render a block of HTML (like a "Previous Page" link):</p>
+
+<pre>
+&lt;html>
+    &lt;body>
+        &lt;ol id="posts">
+            <b class="variable">{block:Posts}</b>
+                &lt;li> ... &lt;/li>
+            <b class="variable">{/block:Posts}</b>
+        &lt;/ol>
+    &lt;/body>
+&lt;/html>
+</pre>
+
+    <p>Here's an example of the complete markup for a theme:</p>
+
+<pre>&lt;html&gt;
+    &lt;head&gt;
+        &lt;title&gt;<b class="variable">{Title}</b>&lt;/title&gt;
+        &lt;link rel=&quot;shortcut icon&quot; href=&quot;<b class="variable">{Favicon}</b>&quot;&gt;
+        &lt;link rel=&quot;alternate&quot; type=&quot;application/rss+xml&quot; href=&quot;<b class="variable">{RSS}</b>&quot;&gt;
+        <b class="variable">{block:Description}</b>
+            &lt;meta name="description" content="<b class="variable">{MetaDescription}</b>" /&gt;
+        <b class="variable">{/block:Description}</b>
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;h1&gt;<b class="variable">{Title}</b>&lt;/h1&gt;
+
+        <b class="variable">{block:Description}</b>
+            &lt;p id=&quot;description&quot;&gt;<b class="variable">{Description}</b>&lt;/p&gt;
+        <b class="variable">{/block:Description}</b>
+
+        &lt;ol id=&quot;posts&quot;&gt;
+            <b class="variable">{block:Posts}</b>
+                <b class="variable">{block:Text}</b>
+                    &lt;li class=&quot;post text&quot;&gt;
+                        <b class="variable">{block:Title}</b>
+                            &lt;h3&gt;&lt;a href=&quot;<b class="variable">{Permalink}</b>&quot;&gt;<b class="variable">{Title}</b>&lt;/a&gt;&lt;/h3&gt;
+                        <b class="variable">{/block:Title}</b>
+
+                        <b class="variable">{Body}</b>
+                    &lt;/li&gt;
+                <b class="variable">{/block:Text}</b>
+
+                <b class="variable">{block:Photo}</b>
+                    &lt;li class=&quot;post photo&quot;&gt;
+                        &lt;img src=&quot;<b class="variable">{PhotoURL-500}</b>&quot; alt=&quot;<b class="variable">{PhotoAlt}</b>&quot;/&gt;
+
+                        <b class="variable">{block:Caption}</b>
+                            &lt;div class=&quot;caption&quot;&gt;<b class="variable">{Caption}</b>&lt;/div&gt;
+                        <b class="variable">{/block:Caption}</b>
+                    &lt;/li&gt;
+                <b class="variable">{/block:Photo}</b>
+
+                <b class="variable">{block:Photoset}</b>
+                    &lt;li class=&quot;post photoset&quot;&gt;
+                        <b class="variable">{Photoset-500}</b>
+
+                        <b class="variable">{block:Caption}</b>
+                            &lt;div class=&quot;caption&quot;&gt;<b class="variable">{Caption}</b>&lt;/div&gt;
+                        <b class="variable">{/block:Caption}</b>
+                    &lt;/li&gt;
+                <b class="variable">{/block:Photoset}</b>
+
+                <b class="variable">{block:Quote}</b>
+                    &lt;li class=&quot;post quote&quot;&gt;
+                        &quot;<b class="variable">{Quote}</b>&quot;
+
+                        <b class="variable">{block:Source}</b>
+                            &lt;div class=&quot;source&quot;&gt;<b class="variable">{Source}</b>&lt;/div&gt;
+                        <b class="variable">{/block:Source}</b>
+                    &lt;/li&gt;
+                <b class="variable">{/block:Quote}</b>
+
+                <b class="variable">{block:Link}</b>
+                    &lt;li class=&quot;post link&quot;&gt;
+                        &lt;a href=&quot;<b class="variable">{URL}</b>&quot; class=&quot;link&quot; <b class="variable">{Target}</b>&gt;<b class="variable">{Name}</b>&lt;/a&gt;
+
+                        <b class="variable">{block:Description}</b>
+                            &lt;div class=&quot;description&quot;&gt;<b class="variable">{Description}</b>&lt;/div&gt;
+                        <b class="variable">{/block:Description}</b>
+                    &lt;/li&gt;
+                <b class="variable">{/block:Link}</b>
+
+                <b class="variable">{block:Chat}</b>
+                    &lt;li class=&quot;post chat&quot;&gt;
+                        <b class="variable">{block:Title}</b>
+                            &lt;h3&gt;&lt;a href=&quot;<b class="variable">{Permalink}</b>&quot;&gt;<b class="variable">{Title}</b>&lt;/a&gt;&lt;/h3&gt;
+                        <b class="variable">{/block:Title}</b>
+
+                        &lt;ul class=&quot;chat&quot;&gt;
+                            <b class="variable">{block:Lines}</b>
+                                &lt;li class=&quot;<b class="variable">{Alt}</b> user_<b class="variable">{UserNumber}</b>&quot;&gt;
+                                    <b class="variable">{block:Label}</b>
+                                        &lt;span class=&quot;label&quot;&gt;<b class="variable">{Label}</b>&lt;/span&gt;
+                                    <b class="variable">{/block:Label}</b>
+
+                                    <b class="variable">{Line}</b>
+                                &lt;/li&gt;
+                            <b class="variable">{/block:Lines}</b>
+                        &lt;/ul&gt;
+                    &lt;/li&gt;
+                <b class="variable">{/block:Chat}</b>
+
+                <b class="variable">{block:Video}</b>
+                    &lt;li class=&quot;post video&quot;&gt;
+                        <b class="variable">{Video-500}</b>
+
+                        <b class="variable">{block:Caption}</b>
+                            &lt;div class=&quot;caption&quot;&gt;<b class="variable">{Caption}</b>&lt;/div&gt;
+                        <b class="variable">{/block:Caption}</b>
+                    &lt;/li&gt;
+                <b class="variable">{/block:Video}</b>
+
+                <b class="variable">{block:Audio}</b>
+                    &lt;li class=&quot;post audio&quot;&gt;
+                        <b class="variable">{AudioPlayerBlack}</b>
+
+                        <b class="variable">{block:Caption}</b>
+                            &lt;div class=&quot;caption&quot;&gt;<b class="variable">{Caption}</b>&lt;/div&gt;
+                        <b class="variable">{/block:Caption}</b>
+                    &lt;/li&gt;
+                <b class="variable">{/block:Audio}</b>
+            <b class="variable">{/block:Posts}</b>
+        &lt;/ol&gt;
+
+        &lt;p id=&quot;footer&quot;&gt;
+            <b class="variable">{block:PreviousPage}</b>
+                &lt;a href=&quot;<b class="variable">{PreviousPage}</b>&quot;&gt;&amp;#171; Previous&lt;/a&gt;
+            <b class="variable">{/block:PreviousPage}</b>
+
+            <b class="variable">{block:NextPage}</b>
+                &lt;a href=&quot;<b class="variable">{NextPage}</b>&quot;&gt;Next &amp;#187;&lt;/a&gt;
+            <b class="variable">{/block:NextPage}</b>
+
+            &lt;a href=&quot;/archive&quot;&gt;Archive&lt;/a&gt;
+        &lt;/p&gt;
+    &lt;/body&gt;
+&lt;/html&gt;</pre>
+
+
+    <!-- Basic Variables -->
+
+    <h2><a id="basic_variables">Basic Variables</a></h2>
+
+    <table>
+        <tbody>
+            <tr class="header">
+                <th>Variable</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <th>{Title}</th>
+                <td>The HTML-safe title of your blog.</td>
+            </tr>
+            <tr>
+                <th>{Description}</th>
+                <td>The description of your blog. (may include HTML)</td>
+            </tr>
+            <tr>
+                <th>{MetaDescription}</th>
+                <td>The HTML-safe description of your blog.
+                <div class="note">e.g., <code>&lt;meta name="description" content="{MetaDescription}" /></code></div></td>
+            </tr>
+            <tr>
+                <th>{RSS}</th>
+                <td>RSS feed URL for your blog.</td>
+            </tr>
+            <tr>
+                <th>{Favicon}</th>
+                <td>Favicon URL for your blog.</td>
+            </tr>
+            <tr>
+                <th>{CustomCSS}</th>
+                <td>Any custom CSS code added on your "Customize Theme" screen.</td>
+            </tr>
+            <tr>
+                <th>{block:PermalinkPage}
+                    {/block:PermalinkPage}</th>
+                <td>Rendered on post permalink pages.
+                <div class="note">Useful for embedding comment widgets</div></td>
+            </tr>
+            <tr>
+                <th>{block:IndexPage}
+                    {/block:IndexPage}</th>
+                <td>Rendered on index (post) pages.</td>
+            </tr>
+            <tr>
+                <th>{block:PostTitle}<br/>
+                    {PostTitle}<br/>
+                    {/block:PostTitle}</th>
+                <td>Rendered on permalink pages.  (Useful for displaying the current post's title in the page title)
+                <div class="note">Example: <code>&lt;title>{Title}{block:PostTitle} - {PostTitle}{/block:PostTitle}&lt;/title></code></div></td>
+            </tr>
+            <tr>
+                <th>{block:PostSummary}<br/>
+                    {PostSummary}<br/>
+                    {/block:PostSummary}</th>
+                <td>Identical to <code>{PostTitle}</code>, but will automatically generate a summary if a title doesn't exist.</td>
+            </tr>
+            <tr>
+                <th>{PortraitURL-16}</th>
+                <td>Portrait photo URL for your blog. 16-pixels by 16-pixels.</td>
+            </tr>
+            <tr>
+                <th>{PortraitURL-24}</th>
+                <td>Portrait photo URL for your blog. 24-pixels by 24-pixels.</td>
+            </tr>
+            <tr>
+                <th>{PortraitURL-30}</th>
+                <td>Portrait photo URL for your blog. 30-pixels by 30-pixels.</td>
+            </tr>
+            <tr>
+                <th>{PortraitURL-40}</th>
+                <td>Portrait photo URL for your blog. 40-pixels by 40-pixels.</td>
+            </tr>
+            <tr>
+                <th>{PortraitURL-48}</th>
+                <td>Portrait photo URL for your blog. 48-pixels by 48-pixels.</td>
+            </tr>
+            <tr>
+                <th>{PortraitURL-64}</th>
+                <td>Portrait photo URL for your blog. 64-pixels by 64-pixels.</td>
+            </tr>
+            <tr>
+                <th>{PortraitURL-96}</th>
+                <td>Portrait photo URL for your blog. 96-pixels by 96-pixels.</td>
+            </tr>
+            <tr>
+                <th>{PortraitURL-128}</th>
+                <td>Portrait photo URL for your blog. 128-pixels by 128-pixels.</td>
+            </tr>
+            <tr>
+                <th>{CopyrightYears}</th>
+                <td>Displays the span of years your blog has existed.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Navigation -->
+
+    <h2><a id="navigation">Navigation</a></h2>
+
+    <table>
+        <tbody>
+            <tr class="header">
+                <th>Variable</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <th>{block:Pagination}<br/>
+                {/block:Pagination}</th>
+                <td>Rendered if there is a "previous" or "next" page.</td>
+            </tr>
+            <tr>
+                <th>{block:PreviousPage}<br/>
+                {/block:PreviousPage}</th>
+                <td>Rendered if there is a "previous" page (newer posts) to navigate to.</td>
+            </tr>
+            <tr>
+                <th>{block:NextPage}<br/>
+                {/block:NextPage}</th>
+                <td>Rendered if there is a "next" page (older posts) to navigate to.</td>
+            </tr>
+            <tr>
+                <th>{PreviousPage}</th>
+                <td>URL for the "previous" page (newer posts).</td>
+            </tr>
+            <tr>
+                <th>{NextPage}</th>
+                <td>URL for the "next" page (older posts).</td>
+            </tr>
+            <tr>
+                <th>{CurrentPage}</th>
+                <td>Current page number.</td>
+            </tr>
+            <tr>
+                <th>{TotalPages}</th>
+                <td>Total page count.</td>
+            </tr>
+            <tr>
+                <th>{block:SubmissionsEnabled} {/block:SubmissionsEnabled}</th>
+                <td>Rendered if Submissions are enabled.</td>
+            </tr>
+            <tr>
+                <th>{SubmitLabel}</th>
+                <td>The customizable label for the Submit link.
+                <div class="note">Example: "Submit"</div></td>
+            </tr>
+            <tr>
+                <th>{block:AskEnabled}<br/>
+                {/block:AskEnabled}</th>
+                <td>Rendered if asking questions is enabled.</td>
+            </tr>
+            <tr>
+                <th>{AskLabel}</th>
+                <td>The customizable label for the Ask link.
+                <div class="note">Example: "Ask me anything"</div></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Jump Pagination -->
+
+    <h3 id="jump-pagination">Jump Pagination</h3>
+
+    <table>
+        <tbody>
+            <tr class="header">
+                <th>Variable</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <th>{block:JumpPagination&nbsp;length="5"} {/block:JumpPagination}</th>
+                <td>Rendered for each page <i>greater than the <b>current page</b> minus one-half <b>length</b></i> up to <i><b>current page</b> plus one-half <b>length</b></i>.</td>
+            </tr>
+            <tr>
+                <th>{block:CurrentPage} {/block:CurrentPage}</th>
+                <td>Rendered when jump page is the current page.</td>
+            </tr>
+            <tr>
+                <th>{block:JumpPage} {/block:JumpPage}</th>
+                <td>Rendered when jump page is <i>not</i> the current page.</td>
+            </tr>
+            <tr>
+                <th>{PageNumber}</th>
+                <td>Page number for jump page.</td>
+            </tr>
+            <tr>
+                <th>{URL}</th>
+                <td>URL for jump page.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h4 style="margin-bottom:-5px;">Example</h4>
+
+<pre>&lt;html&gt;
+    &lt;body&gt;
+        ...
+
+        <b>{block:Pagination}</b>
+            <b>{block:PreviousPage}</b>
+                &lt;a href="<b>{PreviousPage}</b>"&gt;Previous&lt;/a&gt;
+            <b>{/block:PreviousPage}</b>
+
+            <b>{block:JumpPagination length="5"}</b>
+                <b>{block:CurrentPage}</b>
+                    &lt;span class="current_page"&gt;<b>{PageNumber}</b>&lt;/span&gt;
+                <b>{/block:CurrentPage}</b>
+
+                <b>{block:JumpPage}</b>
+                    &lt;a class="jump_page" href="<b>{URL}</b>"&gt;<b>{PageNumber}</b>&lt;/a&gt;
+                <b>{/block:JumpPage}</b>
+            <b>{/block:JumpPagination}</b>
+
+            <b>{block:NextPage}</b>
+                &lt;a href="<b>{NextPage}</b>"&gt;Next&lt;/a&gt;
+            <b>{/block:NextPage}</b>
+        <b>{/block:Pagination}</b>
+    &lt;/body&gt;
+&lt;/html&gt;</pre>
+
+    <!-- Pages -->
+
+    <h3 id="pages">Pages</h3>
+
+    <table>
+        <tbody>
+            <tr class="header">
+                <th>Variable</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <th>{block:HasPages} {/block:HasPages}</th>
+                <td>Rendered if you have defined any custom pages.</td>
+            </tr>
+            <tr>
+                <th>{block:Pages} {/block:Pages}</th>
+                <td>Rendered for each custom page.</td>
+            </tr>
+            <tr>
+                <th>{URL}</th>
+                <td>The URL for this page.</td>
+            </tr>
+            <tr>
+                <th>{Label}</th>
+                <td>The label for this page.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Permalink Navigation -->
+
+    <h3 id="permalink-navigation">Permalink Navigation</h3>
+
+    <table>
+        <tbody>
+            <tr class="header">
+                <th>Variable</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <th>{block:PreviousPost} {/block:PreviousPost}</th>
+                <td>Rendered if there is a "previous" post to navigate to.</td>
+            </tr>
+            <tr>
+                <th>{block:NextPost} {/block:NextPost}</th>
+                <td>Rendered if there is a "next" post to navigate to.</td>
+            </tr>
+            <tr>
+                <th>{PreviousPost}</th>
+                <td>URL for the "previous" (newer) post.</td>
+            </tr>
+            <tr>
+                <th>{NextPost}</th>
+                <td>URL for the "next" (older) post.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Posts -->
+
+    <h2><a id="posts">Posts</a></h2>
+
+    <table>
+        <tbody>
+            <tr class="header">
+                <th>Variable</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <th>{block:Posts} {/block:Posts}</th>
+                <td>This block gets rendered for each post in reverse chronological order. The number of posts that appear per-page can be configured the Customize area for the blog on the Advanced tab.</td>
+            </tr>
+            <tr>
+                <th>{block:Text} {/block:Text}</th>
+                <td>Rendered for Text posts.</td>
+            </tr>
+            <tr>
+                <th>{block:Photo} {/block:Photo}</th>
+                <td>Rendered for Photo posts.</td>
+            </tr>
+            <tr>
+                <th>{block:Photoset} {/block:Photoset}</th>
+                <td>Rendered for Photoset posts.</td>
+            </tr>
+            <tr>
+                <th>{block:Quote} {/block:Quote}</th>
+                <td>Rendered for Quote posts.</td>
+            </tr>
+            <tr>
+                <th>{block:Link} {/block:Link}</th>
+                <td>Rendered for Link posts.</td>
+            </tr>
+            <tr>
+                <th>{block:Chat} {/block:Chat}</th>
+                <td>Rendered for Conversation posts.</td>
+            </tr>
+            <tr>
+                <th>{block:Audio} {/block:Audio}</th>
+                <td>Rendered for Audio posts.</td>
+            </tr>
+            <tr>
+                <th>{block:Video} {/block:Video}</th>
+                <td>Rendered for Video posts.</td>
+            </tr>
+            <tr>
+                <th>{block:Answer} {/block:Answer}</th>
+                <td>Rendered for Answer posts.</td>
+            </tr>
+            <tr>
+                <th>{PostType}</th>
+                <td>The name of the current post type.</td>
+            </tr>
+            <tr>
+                <th>{Permalink}</th>
+                <td>The permalink for a post.
+                <div class="note">Example: <code>"http://sample.tumblr.com/post/123"</code></div></td>
+            </tr>
+            <tr>
+                <th>{ShortURL}</th>
+                <td>A shorter URL that redirects to this post.
+                <div class="note">Example: <code>"http://tumblr.com/xpv5qtavm"</code></div></td>
+            </tr>
+            <tr>
+                <th>{PostID}</th>
+                <td>The numeric ID for a post.
+                <div class="note">Example: <code>1234567</code></div></td>
+            </tr>
+            <tr>
+                <th>{TagsAsClasses}</th>
+                <td>An HTML class-attribute friendly list of the post's tags.
+                <div class="note">Example: <code>"humor office new_york_city"</code></div><br/>
+                By default, an HTML friendly version of the source domain of imported posts will be included. This may not behave as expected with feeds like Del.icio.us that send their content URLs as their permalinks.
+                <div class="note">Example: <code>"twitter_com", "digg_com", etc.</code></div><br/>
+                The class-attribute "reblog" will be included automatically if the post was reblogged from another post.</td>
+            </tr>
+            <tr>
+                <th width="130px">{block:Post<em>[1-15]</em>} {/block:Post<em>[1-15]</em>}</th>
+                <td>Rendered for the post at the specified offset.  This makes it possible to insert an advertisement or design element in the middle of your posts.
+                    <div class="note">Example: <code>{block:Post5}</code>I'm the fifth post!<code>{/block:Post5}</code> will only be rendered on the fifth post being displayed.</div></td>
+            </tr>
+            <tr>
+                <th>{block:Odd} {/block:Odd}</th>
+                <td>Rendered for every one of the current pages odd-numbered posts.</td>
+            </tr>
+            <tr>
+                <th>{block:Even} {/block:Even}</th>
+                <td>Rendered for every one of the current pages even-numbered posts.</td>
+            </tr>
+            <tr>
+                <th>{block:More} {/block:More}</th>
+                <td>Rendered on index pages for posts with Read More breaks.</td>
+            </tr>
+            <tr>
+                <th>{PostNotesURL}</th>
+                <td>URL to an HTML partial of this post's <a href="#notes">Notes</a>. Useful for loading Notes via AJAX.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Reblogs -->
+
+    <h3><a id="reblogs">Reblogs</a></h3>
+
+    <table>
+        <tbody>
+            <tr class="header">
+                <th>Variable</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <th>{block:RebloggedFrom} {/block:RebloggedFrom}</th>
+                <td>Rendered if a post was reblogged from another post.</td>
+            </tr>
+            <tr>
+                <th>{ReblogParentName}</th>
+                <td>The username of the blog this post was reblogged from.</td>
+            </tr>
+            <tr>
+                <th>{ReblogParentTitle}</th>
+                <td>The title of the blog this post was reblogged from.</td>
+            </tr>
+            <tr>
+                <th>{ReblogParentURL}</th>
+                <td>The URL for the blog this post was reblogged from.</td>
+            </tr>
+            <tr>
+                <th>{ReblogParentPortraitURL-16}</th>
+                <td>Portrait photo URL for the blog this post was reblogged from. 16-pixels by 16-pixels.</td>
+            </tr>
+            <tr>
+                <th>{ReblogParentPortraitURL-24}</th>
+                <td>Portrait photo URL for the blog this post was reblogged from. 24-pixels by 24-pixels.</td>
+            </tr>
+
+            <tr>
+                <th>{ReblogParentPortraitURL-30}</th>
+                <td>Portrait photo URL for the blog this post was reblogged from. 30-pixels by 30-pixels.</td>
+            </tr>
+
+            <tr>
+                <th>{ReblogParentPortraitURL-40}</th>
+                <td>Portrait photo URL for the blog this post was reblogged from. 40-pixels by 40-pixels.</td>
+            </tr>
+
+            <tr>
+                <th>{ReblogParentPortraitURL-48}</th>
+                <td>Portrait photo URL for the blog this post was reblogged from. 48-pixels by 48-pixels.</td>
+            </tr>
+
+            <tr>
+                <th>{ReblogParentPortraitURL-64}</th>
+                <td>Portrait photo URL for the blog this post was reblogged from. 64-pixels by 64-pixels.</td>
+            </tr>
+
+            <tr>
+                <th>{ReblogParentPortraitURL-96}</th>
+                <td>Portrait photo URL for the blog this post was reblogged from. 96-pixels by 96-pixels.</td>
+            </tr>
+
+            <tr>
+                <th>{ReblogParentPortraitURL-128}</th>
+                <td>Portrait photo URL for the blog this post was reblogged from. 128-pixels by 128-pixels.</td>
+            </tr>
+            <tr>
+                <th>{ReblogRootName}</th>
+                <td>The username of the blog this post was created by.</td>
+            </tr>
+            <tr>
+                <th>{ReblogRootTitle}</th>
+                <td>The title of the blog this post was created by.</td>
+            </tr>
+            <tr>
+                <th>{ReblogRootURL}</th>
+                <td>The URL for the blog this post was created by.</td>
+            </tr>
+            <tr>
+                <th>{ReblogRootPortraitURL-16}</th>
+                <td>Portrait photo URL for the blog this post was created by. 16-pixels by 16-pixels.</td>
+            </tr>
+            <tr>
+                <th>{ReblogRootPortraitURL-24}</th>
+                <td>Portrait photo URL for the blog this post was created by. 24-pixels by 24-pixels.</td>
+            </tr>
+
+            <tr>
+                <th>{ReblogRootPortraitURL-30}</th>
+                <td>Portrait photo URL for the blog this post was created by. 30-pixels by 30-pixels.</td>
+            </tr>
+
+            <tr>
+                <th>{ReblogRootPortraitURL-40}</th>
+                <td>Portrait photo URL for the blog this post was created by. 40-pixels by 40-pixels.</td>
+            </tr>
+
+            <tr>
+                <th>{ReblogRootPortraitURL-48}</th>
+                <td>Portrait photo URL for the blog this post was created by. 48-pixels by 48-pixels.</td>
+            </tr>
+
+            <tr>
+                <th>{ReblogRootPortraitURL-64}</th>
+                <td>Portrait photo URL for the blog this post was created by. 64-pixels by 64-pixels.</td>
+            </tr>
+
+            <tr>
+                <th>{ReblogRootPortraitURL-96}</th>
+                <td>Portrait photo URL for the blog this post was created by. 96-pixels by 96-pixels.</td>
+            </tr>
+
+            <tr>
+                <th>{ReblogRootPortraitURL-128}</th>
+                <td>Portrait photo URL for the blog this post was created by. 128-pixels by 128-pixels.</td>
+            </tr>
+            <tr>
+                <th>{block:NotReblog} {/block:NotReblog}</th>
+                <td>Rendered if a post was not reblogged from another post.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Text -->
+
+    <h3><a id="text-posts">Text Posts</a></h3>
+
+    <table>
+        <tbody>
+            <tr class="header">
+                <th>Variable</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <th>{block:Title} {/block:Title}</th>
+                <td>Rendered if there is a title for this post.</td>
+            </tr>
+            <tr>
+                <th>{Title}</th>
+                <td>The title of this post.</td>
+            </tr>
+            <tr>
+                <th>{Body}</th>
+                <td>The content of this post.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Photo -->
+
+    <h3><a id="photo-posts">Photo Posts</a></h3>
+
+    <table>
+        <tbody>
+            <tr class="header">
+                <th>Variable</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <th>{PhotoAlt}</th>
+                <td>The HTML-safe version of the caption (if one exists) of this post.</td>
+            </tr>
+            <tr>
+                <th>{block:Caption} {/block:Caption}</th>
+                <td>Rendered if there is a caption for this post.</td>
+            </tr>
+            <tr>
+                <th>{Caption}</th>
+                <td>The caption for this post.</td>
+            </tr>
+            <tr>
+                <th>{LinkURL}</th>
+                <td>A click-through URL for this photo if set.</td>
+            </tr>
+            <tr>
+                <th>{LinkOpenTag}</th>
+                <td>An HTML open anchor-tag including the click-through URL if set.
+                    <div class="note">Example: <code>&lt;a href="http://..."&gt;</a> </code></div></td>
+            </tr>
+            <tr>
+                <th>{LinkCloseTag}</th>
+                <td>A closing anchor-tag output only if a click-through URL is set.
+                    <div class="note">Example: <code>&lt;/a&gt;</code></div></td>
+            </tr>
+            <tr>
+                <th>{PhotoURL-500}</th>
+                <td>URL for the photo of this post.  No wider than 500-pixels.</td>
+            </tr>
+            <tr>
+                <th>{PhotoWidth-500}</th>
+                <td>Width for the 500px size photo.</td>
+            </tr>
+            <tr>
+                <th>{PhotoHeight-500}</th>
+                <td>Height for the 500px size photo.</td>
+            </tr>
+            <tr>
+                <th>{PhotoURL-400}</th>
+                <td>URL for the photo of this post.  No wider than 400-pixels.</td>
+            </tr>
+            <tr>
+                <th>{PhotoWidth-400}</th>
+                <td>Width for the 400px size photo.</td>
+            </tr>
+            <tr>
+                <th>{PhotoHeight-400}</th>
+                <td>Height for the 400px size photo.</td>
+            </tr>
+            <tr>
+                <th>{PhotoURL-250}</th>
+                <td>URL for the photo of this post.  No wider than 250-pixels.</td>
+            </tr>
+            <tr>
+                <th>{PhotoWidth-250}</th>
+                <td>Width for the 250px size photo.</td>
+            </tr>
+            <tr>
+                <th>{PhotoHeight-250}</th>
+                <td>Height for the 250px size photo.</td>
+            </tr>
+            <tr>
+                <th>{PhotoURL-100}</th>
+                <td>URL for the photo of this post.  No wider than 100-pixels.</td>
+            </tr>
+            <tr>
+                <th>{PhotoWidth-100}</th>
+                <td>Width for the 100px size photo.</td>
+            </tr>
+            <tr>
+                <th>{PhotoHeight-100}</th>
+                <td>Height for the 100px size photo.</td>
+            </tr>
+            <tr>
+                <th>{PhotoURL-75sq}</th>
+                <td>URL for a square version the photo of this post.  75-pixels by 75-pixels.</td>
+            </tr>
+            <tr>
+                <th>{block:HighRes} {/block:HighRes}</th>
+                <td>Rendered if there is a high-res photo for a post.</td>
+            </tr>
+            <tr>
+                <th>{PhotoURL-HighRes}</th>
+                <td>URL for the high-res photo of this post. No wider than 1280px.</td>
+            </tr>
+            <tr>
+                <th>{PhotoWidth-HighRes}</th>
+                <td>Width for the high-res size photo.</td>
+            </tr>
+            <tr>
+                <th>{PhotoHeight-HighRes}</th>
+                <td>Height for the high-res size photo.</td>
+            </tr
+            <tr>
+                <th>{block:Exif} {/block:Exif}</th>
+                <td>Rendered if this photo has Exif data.</td>
+            </tr>
+            <tr>
+                <th>{block:Camera}<br/>
+                    {Camera}<br/>
+                    {/block:Camera}</th>
+                <td>Rendered if this photo's Exif data contains camera info.</td>
+            </tr>
+            <tr>
+                <th>{block:Aperture}<br/>
+                    {Aperture}<br/>
+                    {/block:Aperture}</th>
+                <td>Rendered if this photo's Exif data contains aperture info.</td>
+            </tr>
+            <tr>
+                <th>{block:Exposure}<br/>
+                    {Exposure}<br/>
+                    {/block:Exposure}</th>
+                <td>Rendered if this photo's Exif data contains exposure info.</td>
+            </tr>
+            <tr>
+                <th>{block:FocalLength}<br/>
+                    {FocalLength}<br/>
+                    {/block:FocalLength}</th>
+                <td>Rendered if this photo's Exif data contains focal length.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h4 style="margin-bottom:-5px;">Example</h4>
+
+<pre><b class="variable">{Block:Photo}</b>
+    <b class="variable">{LinkOpenTag}</b>
+        &lt;img src="<b class="variable">{PhotoURL-500}</b>" alt="<b class="variable">{PhotoAlt}</b>"/>
+    <b class="variable">{LinkCloseTag}</b>
+
+    <b class="variable">{block:HighRes}</b>
+         &lt;a href="<b class="variable">{PhotoURL-HighRes}</b>">View in High-Res&lt;/a>
+    <b class="variable">{/block:HighRes}</b>
+
+    <b class="variable">{block:Exif}</b>
+        &lt;ul>
+            <b class="variable">{block:Camera}</b>
+                &lt;li>Camera: <b class="variable">{Camera}</b>&lt;/li>
+            <b class="variable">{/block:Camera}</b>
+            <b class="variable">{block:Aperture}</b>
+                &lt;li>Aperture: <b class="variable">{Aperture}</b>&lt;/li>
+            <b class="variable">{/block:Aperture}</b>
+            <b class="variable">{block:Exposure}</b>
+                &lt;li>Exposure: <b class="variable">{Exposure}</b>&lt;/li>
+            <b class="variable">{/block:Exposure}</b>
+            <b class="variable">{block:FocalLength}</b>
+                &lt;li>Focal Length: <b class="variable">{FocalLength}</b>&lt;/li>
+            <b class="variable">{/block:FocalLength}</b>
+        &lt;/ul>
+    <b class="variable">{/block:Exif}</b>
+
+    <b class="variable">{block:Caption}</b>
+        <b class="variable">{Caption}</b>
+    <b class="variable">{/block:Caption}</b>
+<b class="variable">{/Block:Photo}</b></pre>
+
+    <!-- Text -->
+
+    <h3><a id="photoset-posts">Photoset Posts</a></h3>
+
+    <table>
+        <tbody>
+            <tr class="header">
+                <th>Variable</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <th>{block:Caption} {/block:Caption}</th>
+                <td>Rendered if there is a caption for this post.</td>
+            </tr>
+            <tr>
+                <th>{Caption}</th>
+                <td>The caption for this post.</td>
+            </tr>
+            <tr>
+                <th>{Photoset-700}</th>
+                <td>Embed-code for the Photoset.  700-pixels wide.</td>
+            </tr>
+            <tr>
+                <th>{Photoset-500}</th>
+                <td>Embed-code for the Photoset.  500-pixels wide.</td>
+            </tr>
+            <tr>
+                <th>{Photoset-400}</th>
+                <td>Embed-code for the Photoset.  400-pixels wide.</td>
+            </tr>
+            <tr>
+                <th>{Photoset-250}</th>
+                <td>Embed-code for the Photoset.  250-pixels wide.</td>
+            </tr>
+            <tr>
+                <th>{PhotoCount}</th>
+                <td>The number of photos in the Photoset.</td>
+            </tr>
+            <tr>
+                <th>{PhotosetLayout}</th>
+                <td>An integer representation of the Photoset layout.</td>
+            </tr>
+            <tr>
+                <th>{JSPhotosetLayout}</th>
+                <td>JavaScript array of the Photoset column counts.</td>
+            </tr>
+            <tr>
+                <th>{block:Photos} {/block:Photos}</th>
+                <td>Rendered for each of the Photoset photos. Each contains the same variables as {block:Photo}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h4 style="margin-bottom:-5px;">Example</h4>
+    
+    <pre>
+<b class="variable">{block:Photoset}</b>
+    <b class="variable">{block:Photos}</b>
+        &lt;img src=&quot;<b class="variable">{PhotoURL-500}</b>&quot; width=&quot;<b class="variable">{PhotoWidth-500}</b>&quot; height=&quot;<b class="variable">{PhotoHeight-500}</b>&quot; /&gt;
+        
+        <b class="variable">{block:Caption}</b>
+            <b class="variable">{Caption}</b>
+        <b class="variable">{/block:Caption}</b>
+        
+        <b class="variable">{block:Exif}</b>
+            &lt;ul&gt;...&lt;/ul&gt;
+        <b class="variable">{/block:Exif}</b>
+    <b class="variable">{/block:Photos}</b>
+    
+    <b class="variable">{block:Caption}</b>
+        <b class="variable">{Caption}</b>
+    <b class="variable">{/block:Caption}</b>
+<b class="variable">{/block:Photoset}</b>
+</pre>
+    <!-- Quote -->
+
+    <h3><a id="quote-posts">Quote Posts</a></h3>
+
+    <table>
+        <tbody>
+            <tr class="header">
+                <th>Variable</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <th>{Quote}</th>
+                <td>The content of this post.</td>
+            </tr>
+            <tr>
+                <th>{block:Source} {/block:Source}</th>
+                <td>Rendered if there is a source for this post.</td>
+            </tr>
+            <tr>
+                <th>{Source}</th>
+                <td>The source for this post.  <div class="note">May contain HTML</div></td>
+            </tr>
+            <tr>
+                <th>{Length}</th>
+                <td>"short", "medium", or "long", depending on the length of the quote.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Link -->
+
+    <h3><a id="link-posts">Link Posts</a></h3>
+
+    <table>
+        <tbody>
+            <tr class="header">
+                <th>Variable</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <th>{URL}</th>
+                <td>The URL of this post.</td>
+            </tr>
+            <tr>
+                <th>{Name}</th>
+                <td>The name of this post.  Defaults to the URL if no name is entered.</td>
+            </tr>
+            <tr>
+                <th>{Target}</th>
+                <td>Should be included inside the A-tags of Link posts.
+                    Output <code>target="_blank"</code> if you've enabled "Open links in new window".</td>
+            </tr>
+            <tr>
+                <th>{block:Description} {/block:Description}</th>
+                <td>Rendered if there is a description for this post.</td>
+            </tr>
+            <tr>
+                <th>{Description}</th>
+                <td>The description for this post.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Chat -->
+
+    <h3><a id="chat-posts">Chat Posts</a></h3>
+
+    <table>
+        <tbody>
+            <tr class="header">
+                <th>Variable</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <th>{block:Title} {/block:Title}</th>
+                <td>Rendered if there is a title for this post.</td>
+            </tr>
+            <tr>
+                <th>{Title}</th>
+                <td>The title of this post.</td>
+            </tr>
+            <tr>
+                <th>{block:Lines} {/block:Lines}</th>
+                <td>Rendered for each line of this post.</td>
+            </tr>
+            <tr>
+                <th>{block:Label} {/block:Label}</th>
+                <td>Rendered if a label was extracted for the current line of this post.</td>
+            </tr>
+            <tr>
+                <th>{Label}</th>
+                <td>The label (if one was extracted) for the current line of this post.</td>
+            </tr>
+            <tr>
+                <th>{Name}</th>
+                <td>The username (if one was extracted) for the current line of this post.</td>
+            </tr>
+            <tr>
+                <th>{Line}</th>
+                <td>The current line of this post.</td>
+            </tr>
+            <tr>
+                <th>{UserNumber}</th>
+                <td>A unique identifying integer representing the user of the
+                    current line of this post.</td>
+            </tr>
+            <tr>
+                <th>{Alt}</th>
+                <td>"odd" or "even" for each line of this post.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Audio -->
+
+    <h3><a id="audio-posts">Audio Posts</a></h3>
+
+    <table>
+        <tbody>
+            <tr class="header">
+                <th>Variable</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <th>{block:Caption} {/block:Caption}</th>
+                <td>Rendered if there is a caption for this post.</td>
+            </tr>
+            <tr>
+                <th>{Caption}</th>
+                <td>The caption for this post.</td>
+            </tr>
+            <tr>
+                <th>{block:AudioEmbed} {/block:AudioEmbed}</th>
+                <td>Rendered if an embedded audio player is available.</td>
+            </tr>
+            <tr>
+                <th>{AudioEmbed}</th>
+                <td>Embed-code for the content of this post. Defaults to 500-pixels wide.</td>
+            </tr>
+            <tr>
+                <th>{AudioEmbed-250}</th>
+                <td>Embed-code for the content of this post. 250-pixels wide.</td>
+            </tr>
+            <tr>
+                <th>{AudioEmbed-400}</th>
+                <td>Embed-code for the content of this post. 400-pixels wide.</td>
+            </tr>
+            <tr>
+                <th>{AudioEmbed-500}</th>
+                <td>Embed-code for the content of this post. 500-pixels wide.</td>
+            </tr>
+            <tr>
+                <th>{AudioEmbed-640}</th>
+                <td>Embed-code for the content of this post. 640-pixels wide.</td>
+            </tr>
+            <tr>
+                <th>{block:AudioPlayer} {/block:AudioPlayer}</th>
+                <td>Rendered if a native audio player is available</td>
+            </tr>
+            <tr>
+                <th>{AudioPlayer}</th>
+                <td>Default audio player.</td>
+            </tr>
+            <tr>
+                <th>{AudioPlayerWhite}</th>
+                <td>White audio player.</td>
+            </tr>
+            <tr>
+                <th>{AudioPlayerGrey}</th>
+                <td>Grey audio player.</td>
+            </tr>
+            <tr>
+                <th>{AudioPlayerBlack}</th>
+                <td>Black audio player.</td>
+            </tr>
+            <tr>
+                <th>{RawAudioURL}</th>
+                <td>URL for this post's audio file.
+                <div class="note"><a href="#iphone-themes">iPhone Themes</a> only.</div></td>
+            </tr>
+            <tr>
+                <th>{block:PlayCount} {/block:PlayCount}</th>
+                <td>Rendered if there is a play count for the audio.</td>
+            </tr>
+            <tr>
+                <th>{PlayCount}</th>
+                <td>The number of times this post has been played.</td>
+            </tr>
+
+            <tr>
+                <th>{FormattedPlayCount}</th>
+                <td>The number of times this post has been played, formatted with commas.
+                <div class="note">e.g., <code>"12,309"</code></div></td>
+            </tr>
+            <tr>
+                <th>{PlayCountWithLabel}</th>
+                <td>The number of times this post has been played, formatted with commas and pluralized label
+                <div class="note">e.g., <code>"12,309 plays"</code></div></td>
+            </tr>
+            <tr>
+                <th>{block:ExternalAudio} {/block:ExternalAudio}</th>
+                <td>Rendered if this post uses an externally hosted MP3.
+                <div class="note">Useful for adding a "Download" link</div></td>
+            </tr>
+            <tr>
+                <th>{ExternalAudioURL}</th>
+                <td>
+                    The external MP3 URL, if this post uses an externally hosted MP3.
+                </td>
+            </tr>
+            <tr>
+                <th>{block:AlbumArt}<br/>
+                    {AlbumArtURL}<br/>
+                    {/block:AlbumArt}</th>
+                <td>Rendered if this audio file's ID3 info contains album art.</td>
+            </tr>
+            <tr>
+                <th>{block:Artist}<br/>
+                    {Artist}<br/>
+                    {/block:Artist}</th>
+                <td>Rendered if this audio file's ID3 info contains the artist name.</td>
+            </tr>
+            <tr>
+                <th>{block:Album}<br/>
+                    {Album}<br/>
+                    {/block:Album}</th>
+                <td>Rendered if this audio file's ID3 info contains the album title.</td>
+            </tr>
+            <tr>
+                <th>{block:TrackName}<br/>
+                    {TrackName}<br/>
+                    {/block:TrackName}</th>
+                <td>Rendered if this audio file's ID3 info contains the track name.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Video -->
+
+    <h3><a id="video-posts">Video Posts</a></h3>
+
+    <table>
+        <tbody>
+            <tr class="header">
+                <th>Variable</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <th>{block:Caption} {/block:Caption}</th>
+                <td>Rendered if there is a caption for this post.</td>
+            </tr>
+            <tr>
+                <th>{Caption}</th>
+                <td>The caption for this post.</td>
+            </tr>
+            <tr>
+                <th>{Video-700}</th>
+                <td>Embed-code for the content of this post.  700-pixels wide.</td>
+            </tr>
+            <tr>
+                <th>{Video-500}</th>
+                <td>Embed-code for the content of this post.  500-pixels wide.</td>
+            </tr>
+            <tr>
+                <th>{Video-400}</th>
+                <td>Embed-code for the content of this post.  400-pixels wide.</td>
+            </tr>
+            <tr>
+                <th>{Video-250}</th>
+                <td>Embed-code for the content of this post.  250-pixels wide.</td>
+            </tr>
+	    <tr>
+                <th>{VideoEmbed-700}</th>
+                <td>Same as {Video-700}, but removes the lightbox effect from directly uploaded video.  700-pixels wide.</td>
+            </tr>
+            <tr>
+                <th>{VideoEmbed-500}</th>
+                <td>Same as {Video-500}, but removes the lightbox effect from directly uploaded video.  500-pixels wide.</td>
+            </tr>
+            <tr>
+                <th>{VideoEmbed-400}</th>
+                <td>Same as {Video-400}, but removes the lightbox effect from directly uploaded video.  400-pixels wide.</td>
+            </tr>
+            <tr>
+                <th>{VideoEmbed-250}</th>
+                <td>Same as {Video-250}, but removes the lightbox effect from directly uploaded video.  250-pixels wide.</td>
+            </tr>
+            <tr>
+                <th>{PlayCount}</th>
+                <td>The number of times this post has been played.</td>
+            </tr>
+            <tr>
+                <th>{FormattedPlayCount}</th>
+                <td>The number of times this post has been played, formatted with commas.
+                <div class="note">e.g., <code>"12,309"</code></div></td>
+            </tr>
+            <tr>
+                <th>{PlayCountWithLabel}</th>
+                <td>The number of times this post has been played, formatted with commas and pluralized label
+                <div class="note">e.g., <code>"12,309 plays"</code></div></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Answer -->
+
+    <h3><a id="answer-posts">Answer Posts</a></h3>
+
+    <table>
+        <tbody>
+            <tr class="header">
+                <th>Variable</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <th>{Question}</th>
+                <td>The question for this post.
+                <div class="note">May contain heavily filtered HTML</div></td>
+            </tr>
+            <tr>
+                <th>{Answer}</th>
+                <td>The answer for this post.
+                <div class="note">May contain HTML</div></td>
+            </tr>
+            <tr>
+                <th>{Asker}</th>
+                <td>Simple HTML text link with the asker's username and URL, or the plain text string "Anonymous".</td>
+            </tr>
+            <tr>
+                <th>{AskerPortraitURL-16}</th>
+                <td>Portrait photo URL for the asker. 16-pixels by 16-pixels.</td>
+            </tr>
+            <tr>
+                <th>{AskerPortraitURL-24}</th>
+                <td>Portrait photo URL for the asker. 24-pixels by 24-pixels.</td>
+            </tr>
+
+            <tr>
+                <th>{AskerPortraitURL-30}</th>
+                <td>Portrait photo URL for the asker. 30-pixels by 30-pixels.</td>
+            </tr>
+
+            <tr>
+                <th>{AskerPortraitURL-40}</th>
+                <td>Portrait photo URL for the asker. 40-pixels by 40-pixels.</td>
+            </tr>
+
+            <tr>
+                <th>{AskerPortraitURL-48}</th>
+                <td>Portrait photo URL for the asker. 48-pixels by 48-pixels.</td>
+            </tr>
+
+            <tr>
+                <th>{AskerPortraitURL-64}</th>
+                <td>Portrait photo URL for the asker. 64-pixels by 64-pixels.</td>
+            </tr>
+
+            <tr>
+                <th>{AskerPortraitURL-96}</th>
+                <td>Portrait photo URL for the asker. 96-pixels by 96-pixels.</td>
+            </tr>
+
+            <tr>
+                <th>{AskerPortraitURL-128}</th>
+                <td>Portrait photo URL for the asker. 128-pixels by 128-pixels.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Dates -->
+
+    <h3><a id="dates">Dates</a></h3>
+
+    <table>
+        <tbody>
+            <tr class="header">
+                <th>Variable</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <th>{block:Date} {/block:Date}</th>
+                <td>Rendered for all posts.
+                   <div class="note">Always wrap dates in this block so they will be properly hidden on non-post pages.</div></td>
+            </tr>
+            <tr>
+                <th>{block:NewDayDate} {/block:NewDayDate}</th>
+                <td>Rendered for posts that are the first to be listed for a given day.</td>
+            </tr>
+            <tr>
+                <th>{block:SameDayDate} {/block:SameDayDate}</th>
+                <td>Rendered for subsequent posts listed for a given day.</td>
+            </tr>
+            <tr>
+                <th>{DayOfMonth}</th>
+                <td>"1" to "31"</td>
+            </tr>
+            <tr>
+                <th>{DayOfMonthWithZero}</th>
+                <td>"01" to "31"</td>
+            </tr>
+            <tr>
+                <th>{DayOfWeek}</th>
+                <td>"Monday" through "Sunday"</td>
+            </tr>
+            <tr>
+                <th>{ShortDayOfWeek}</th>
+                <td>"Mon" through "Sun"</td>
+            </tr>
+            <tr>
+                <th>{DayOfWeekNumber}</th>
+                <td>"1" through "7"</td>
+            </tr>
+            <tr>
+                <th>{DayOfMonthSuffix}</th>
+                <td>"st", "nd", "rd", "th"</td>
+            </tr>
+            <tr>
+                <th>{DayOfYear}</th>
+                <td>"1" through "365"</td>
+            </tr>
+            <tr>
+                <th>{WeekOfYear}</th>
+                <td>"1" through "52"</td>
+            </tr>
+            <tr>
+                <th>{Month}</th>
+                <td>"January" through "December"</td>
+            </tr>
+            <tr>
+                <th>{ShortMonth}</th>
+                <td>"Jan" through "Dec"</td>
+            </tr>
+            <tr>
+                <th>{MonthNumber}</th>
+                <td>"1" through "12"</td>
+            </tr>
+            <tr>
+                <th>{MonthNumberWithZero}</th>
+                <td>"01" through "12"</td>
+            </tr>
+            <tr>
+                <th>{Year}</th>
+                <td>"2007"</td>
+            </tr>
+            <tr>
+                <th>{ShortYear}</th>
+                <td>"07"</td>
+            </tr>
+            <tr>
+                <th>{AmPm}</th>
+                <td>"am" or "pm"</td>
+            </tr>
+            <tr>
+                <th>{CapitalAmPm}</th>
+                <td>"AM" or "PM"</td>
+            </tr>
+            <tr>
+                <th>{12Hour}</th>
+                <td>"1" through "12"</td>
+            </tr>
+            <tr>
+                <th>{24Hour}</th>
+                <td>"0" through "23"</td>
+            </tr>
+            <tr>
+                <th>{12HourWithZero}</th>
+                <td>"01" through "12"</td>
+            </tr>
+            <tr>
+                <th>{24HourWithZero}</th>
+                <td>"00" through "23"</td>
+            </tr>
+            <tr>
+                <th>{Minutes}</th>
+                <td>"00" through "59"</td>
+            </tr>
+            <tr>
+                <th>{Seconds}</th>
+                <td>"00" through "59"</td>
+            </tr>
+
+            <tr>
+                <th>{Beats}</th>
+                <td>"000" through "999"</td>
+            </tr>
+            <tr>
+                <th>{Timestamp}</th>
+                <td>"1172705619"</td>
+            </tr>
+            <tr>
+                <th>{TimeAgo}</th>
+                <td>A contextual time.
+                <div class="note">e.g., "1 minute ago", "2 hours ago", "3 weeks ago", etc.</div></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Notes -->
+
+    <h3><a id="notes">Notes</a></h3>
+
+    <table>
+        <tbody>
+            <tr class="header">
+                <th>Variable</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <th>{block:PostNotes} {/block:PostNotes}</th>
+                <td>Rendered on permalink pages this post has notes.</td>
+            </tr>
+            <tr>
+                <th>{PostNotes}</th>
+                <td>Standard HTML output of this post's notes. Only rendered on permalink pages.</td>
+            </tr>
+            <tr>
+                <th>{PostNotes-16}</th>
+                <td>Standard HTML output of this post's notes with 16x16 sized avatars. Only rendered on permalink pages.</td>
+            </tr>
+            <tr>
+                <th>{PostNotes-64}</th>
+                <td>Standard HTML output of this post's notes with 64x64 sized avatars. Only rendered on permalink pages.</td>
+            </tr>
+            <tr>
+                <th>{block:NoteCount} {/block:NoteCount}</th>
+                <td>
+                    Rendered if this post has notes.
+                    <div class="note">Always wrap note counts in this block so they will be properly hidden on non-post pages.</div>
+                </td>
+            </tr>
+            <tr>
+                <th>{NoteCount}</th>
+                <td>The number of this post's notes.</td>
+            </tr>
+            <tr>
+                <th>{NoteCountWithLabel}</th>
+                <td>The number of this post's notes with pluralized label.
+                <div class="note">e.g., "24 notes"</div></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h4 style="margin-bottom:-5px;">Example</h4>
+
+<pre>&lt;html&gt;
+    &lt;head&gt;
+        &lt;style type="text/css"&gt;
+            ol.notes {
+                padding: 0px;
+                margin: 25px 0px;
+                list-style-type: none;
+                border-bottom: solid 1px #ccc;
+            }
+
+            ol.notes li.note {
+                border-top: solid 1px #ccc;
+                padding: 10px;
+            }
+
+            ol.notes li.note img.avatar {
+                vertical-align: -4px;
+                margin-right: 10px;
+                width: 16px;
+                height: 16px;
+            }
+
+            ol.notes li.note span.action {
+                font-weight: bold;
+            }
+
+            ol.notes li.note .answer_content {
+                font-weight: normal;
+            }
+
+            ol.notes li.note blockquote {
+                border-color: #eee;
+                padding: 4px 10px;
+                margin: 10px 0px 0px 25px;
+            }
+
+            ol.notes li.note blockquote a {
+                text-decoration: none;
+            }
+        &lt;/style&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        <b class="variable">{block:Posts}</b>
+            ...
+
+            <b class="variable">{PostNotes}</b>
+        <b class="variable">{/block:Posts}</b>
+    &lt;/body&gt;
+&lt;/html&gt;</pre>
+
+    <p>Notes are paginated with AJAX. If your theme needs to manipulate the Notes markup or DOM nodes, you can add a Javascript callback that fires when a new page of Notes is loaded or inserted:</p>
+
+    <table>
+        <tbody>
+            <tr class="header">
+                <th>Variable</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <th>tumblrNotesLoaded(notes_html)</th>
+                <td>If this Javascript function is defined, it will be triggered when a new page of Notes is loaded and ready to be inserted. If this function returns <code>false</code>, it will block the Notes from being inserted.</td>
+            </tr>
+            <tr>
+                <th>tumblrNotesInserted()</th>
+                <td>If this Javascript function is defined, it will be triggered after a new page of Notes has been inserted into the DOM.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Tags -->
+
+    <h3><a id="tags">Tags</a></h3>
+
+    <table>
+        <tbody>
+            <tr class="header">
+                <th>Variable</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <th>{block:HasTags} {/block:HasTags}</th>
+                <td>Rendered inside <code>{block:Posts}</code> if post has tags.</td>
+            </tr>
+            <tr>
+                <th>{block:Tags} {/block:Tags}</th>
+                <td>Rendered for each of a post's tags.</td>
+            </tr>
+            <tr>
+                <th>{Tag}</th>
+                <td>The name of this tag.</td>
+            </tr>
+            <tr>
+                <th>{URLSafeTag}</th>
+                <td>A URL safe version of this tag.</td>
+            </tr>
+            <tr>
+                <th>{TagURL}</th>
+                <td>The tag page URL with other posts that share this tag.</td>
+            </tr>
+            <tr>
+                <th>{TagURLChrono}</th>
+                <td>The tag page URL with other posts that share this tag in chronological order.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h4 style="margin-bottom:-5px;">Example</h4>
+
+<pre>&lt;html&gt;
+    &lt;body&gt;
+        <b class="variable">{block:Posts}</b>
+            &lt;div class=&quot;post&quot;&gt;
+                <b class="variable">{block:Text}</b>...<b class="variable">{/block:Text}</b>
+                <b class="variable">{block:Photo}</b>...<b class="variable">{/block:Photo}</b>
+                ...
+
+                <b class="variable">{block:HasTags}</b>
+                    &lt;ul class=&quot;tags&quot;&gt;
+                        <b class="variable">{block:Tags}</b>
+                            &lt;li&gt;
+                                &lt;a href=&quot;<b class="variable">{TagURL}</b>&quot;&gt;<b class="variable">{Tag}</b>&lt;/a&gt;
+                            &lt;/li&gt;
+                        <b class="variable">{/block:Tags}</b>
+                    &lt;/ul&gt;
+                <b class="variable">{/block:HasTags}</b>
+            &lt;/div&gt;
+        <b class="variable">{/block:Posts}</b>
+    &lt;/body&gt;
+&lt;/html&gt;</pre>
+
+    <!-- Content Sources -->
+
+    <h3><a id="content-sources">Content Sources</a></h3>
+
+    <table>
+        <tbody>
+            <tr class="header">
+                <th>Variable</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <th>{block:ContentSource} {/block:ContentSource}</th>
+                <td>Rendered if a source is specified for a post's content.</td>
+            </tr>
+            <tr>
+                <th>{SourceURL}</th>
+                <td>URL of the attributed source.</td>
+            </tr>
+            <tr>
+                <th>{block:SourceLogo} {/block:SourceLogo}</th>
+                <td>Rendered if a logo exists for the content source.</td>
+            </tr>
+            <tr>
+                <th>{BlackLogoURL}</th>
+                <td>URL of the source's logo.</td>
+            </tr>
+            <tr>
+                <th>{LogoWidth}</th>
+                <td>Width of the source's logo.</td>
+            </tr>
+            <tr>
+                <th>{LogoHeight}</th>
+                <td>Height of the source's logo.</td>
+            </tr>
+            <tr>
+                <th>{SourceTitle}</th>
+                <td>Title of the content source.</td>
+            </tr>
+            <tr>
+                <th>{block:NoSourceLogo} {/block:NoSourceLogo}</th>
+                <td>Rendered if no source logo exists.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h4 style="margin-bottom:-5px;">Example</h4>
+
+<pre><b class="variable">{block:ContentSource}</b>
+    &lt;a href="<b class="variable">{SourceURL}</b>">
+        <b class="variable">{lang:Source}</b>:
+        <b class="variable">{block:SourceLogo}</b>
+            &lt;img src="<b class="variable">{BlackLogoURL}</b>" width="<b class="variable">{LogoWidth}</b>"
+            height="<b class="variable">{LogoHeight}</b>" alt="<b class="variable">{SourceTitle}</b>" />
+        <b class="variable">{/block:SourceLogo}</b>
+        <b class="variable">{block:NoSourceLogo}</b>
+            <b class="variable">{SourceTitle}</b>
+        <b class="variable">{/block:NoSourceLogo}</b>
+    &lt;/a>
+<b class="variable">{/block:ContentSource}</b>
+</pre>
+
+    <!-- Group Blogs -->
+
+    <h2><a id="group-blogs">Group Blogs</a></h2>
+
+    <h3 id="group-members">Group Members</h3>
+
+    <table>
+        <tbody>
+            <tr class="header">
+                <th>Variable</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <th>{block:GroupMembers} {/block:GroupMembers}</th>
+                <td>Rendered on additional public group blogs.</td>
+            </tr>
+            <tr>
+                <th>{block:GroupMember} {/block:GroupMember}</th>
+                <td>Rendered for each additional public group blog member.</td>
+            </tr>
+            <tr>
+                <th>{GroupMemberName}</th>
+                <td>The username of the member's blog.</td>
+            </tr>
+            <tr>
+                <th>{GroupMemberTitle}</th>
+                <td>The title of the member's blog.</td>
+            </tr>
+            <tr>
+                <th>{GroupMemberURL}</th>
+                <td>The URL for the member's blog.</td>
+            </tr>
+            <tr>
+                <th>{GroupMemberPortraitURL-16}</th>
+                <td>Portrait photo URL for the member. 16-pixels by 16-pixels.</td>
+            </tr>
+            <tr>
+                <th>{GroupMemberPortraitURL-24}</th>
+                <td>Portrait photo URL for the member. 24-pixels by 24-pixels.</td>
+            </tr>
+            <tr>
+                <th>{GroupMemberPortraitURL-30}</th>
+                <td>Portrait photo URL for the member. 30-pixels by 30-pixels.</td>
+            </tr>
+            <tr>
+                <th>{GroupMemberPortraitURL-40}</th>
+                <td>Portrait photo URL for the member. 40-pixels by 40-pixels.</td>
+            </tr>
+            <tr>
+                <th>{GroupMemberPortraitURL-48}</th>
+                <td>Portrait photo URL for the member. 48-pixels by 48-pixels.</td>
+            </tr>
+            <tr>
+                <th>{GroupMemberPortraitURL-64}</th>
+                <td>Portrait photo URL for the member. 64-pixels by 64-pixels.</td>
+            </tr>
+            <tr>
+                <th>{GroupMemberPortraitURL-96}</th>
+                <td>Portrait photo URL for the member. 96-pixels by 96-pixels.</td>
+            </tr>
+            <tr>
+                <th>{GroupMemberPortraitURL-128}</th>
+                <td>Portrait photo URL for the member. 128-pixels by 128-pixels.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Group Blog Posts -->
+
+    <h3 id="post-authors">Post Authors</h3>
+
+    <table>
+        <tbody>
+            <tr class="header">
+                <th>Variable</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <th>{PostAuthorName}</th>
+                <td>The username of the author of a post to an additional group blog.</td>
+            </tr>
+            <tr>
+                <th>{PostAuthorTitle}</th>
+                <td>The title of the author's blog for a post to an additional group blog.</td>
+            </tr>
+            <tr>
+                <th>{PostAuthorURL}</th>
+                <td>The blog URL for the author of a post to an additional group blog.</td>
+            </tr>
+            <tr>
+                <th>{PostAuthorPortraitURL-16}</th>
+                <td>The portrait photo URL for the author of a post to an additional group blog.
+                    16-pixels by 16-pixels.</td>
+            </tr>
+            <tr>
+                <th>{PostAuthorPortraitURL-24}</th>
+                <td>The portrait photo URL for the author of a post to an additional group blog.
+                    24-pixels by 24-pixels.</td>
+            </tr>
+            <tr>
+                <th>{PostAuthorPortraitURL-30}</th>
+                <td>The portrait photo URL for the author of a post to an additional group blog.
+                    30-pixels by 30-pixels.</td>
+            </tr>
+            <tr>
+                <th>{PostAuthorPortraitURL-40}</th>
+                <td>The portrait photo URL for the author of a post to an additional group blog.
+                    40-pixels by 40-pixels.</td>
+            </tr>
+            <tr>
+                <th>{PostAuthorPortraitURL-48}</th>
+                <td>The portrait photo URL for the author of a post to an additional group blog.
+                    48-pixels by 48-pixels.</td>
+            </tr>
+            <tr>
+                <th>{PostAuthorPortraitURL-64}</th>
+                <td>The portrait photo URL for the author of a post to an additional group blog.
+                    64-pixels by 64-pixels.</td>
+            </tr>
+            <tr>
+                <th>{PostAuthorPortraitURL-96}</th>
+                <td>The portrait photo URL for the author of a post to an additional group blog.
+                    96-pixels by 96-pixels.</td>
+            </tr>
+            <tr>
+                <th>{PostAuthorPortraitURL-128}</th>
+                <td>The portrait photo URL for the author of a post to an additional group blog.
+                    128-pixels by 128-pixels.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Day Pages -->
+
+    <h2><a id="day-pages">Day Pages</a></h2>
+
+
+    <p>Tumblr blogs can display posts from a given day using a URL like <code>http://david.tumblr.com/day/2007/04/29/</code>&nbsp;. By including the following markup, these pages can include pagination for the previous and next days with posts.</p>
+
+    <table>
+        <tbody>
+            <tr class="header">
+                <th>Variable</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <th>{block:DayPage} {/block:DayPage}</th>
+                <td>Rendered on day pages.</td>
+            </tr>
+            <tr>
+                <th>{block:DayPagination} {/block:DayPagination}</th>
+                <td>Rendered if there is a "previous" or "next" day page.</td>
+            </tr>
+            <tr>
+                <th>{block:PreviousDayPage} {/block:PreviousDayPage}</th>
+                <td>Rendered if there is a "previous" day page to navigate to.</td>
+            </tr>
+            <tr>
+                <th>{block:NextDayPage} {/block:NextDayPage}</th>
+                <td>
+                    Rendered if there is a "next" day page to navigate to.
+                </td>
+            </tr>
+            <tr>
+                <th>{PreviousDayPage}</th>
+                <td>URL for the "previous" day page.</td>
+            </tr>
+            <tr>
+                <th>{NextDayPage}</th>
+                <td>URL for the "next" day page.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h4 style="margin-bottom:-5px;">Example</h4>
+
+<pre>&lt;html&gt;
+    &lt;body&gt;
+        &lt;h1&gt;<b class="variable">{Title}</b>&lt;/h1&gt;
+
+        <b class="variable">{block:DayPage}</b>
+            &lt;h2&gt;<b class="variable">{Month}</b> <b class="variable">{DayOfMonth}</b>, <b class="variable">{Year}</b>&lt;/h2&gt;
+        <b class="variable">{/block:DayPage}</b>
+
+        &lt;ol id=&quot;posts&quot;&gt;
+            <b class="variable">{block:Posts}</b>
+                ...
+            <b class="variable">{/block:Posts}</b>
+        &lt;/ol&gt;
+
+        &lt;div id=&quot;footer&quot;&gt;
+            <b class="variable">{block:Pagination}</b>
+                <b class="variable">{block:PreviousPage}</b>
+                    &lt;a href=&quot;<b class="variable">{PreviousPage}</b>&quot;&gt;&amp;#171; Previous&lt;/a&gt;
+                <b class="variable">{/block:PreviousPage}</b>
+
+                <b class="variable">{block:NextPage}</b>
+                    &lt;a href=&quot;<b class="variable">{NextPage}</b>&quot;&gt;Next &amp;#187;&lt;/a&gt;
+                <b class="variable">{/block:NextPage}</b>
+            <b class="variable">{/block:Pagination}</b>
+
+            <b class="variable">{block:DayPagination}</b>
+                <b class="variable">{block:PreviousDayPage}</b>
+                    &lt;a href=&quot;<b class="variable">{PreviousDayPage}</b>&quot;&gt;
+                        &amp;#171; <b class="variable">{ShortMonth}</b> <b class="variable">{DayOfMonth}</b>
+                    &lt;/a&gt;
+                <b class="variable">{/block:PreviousDayPage}</b>
+
+                <b class="variable">{block:NextDayPage}</b>
+                    &lt;a href=&quot;<b class="variable">{NextDayPage}</b>&quot;&gt;
+                        <b class="variable">{ShortMonth}</b> <b class="variable">{DayOfMonth}</b> &amp;#187;
+                    &lt;/a&gt;
+                <b class="variable">{/block:NextDayPage}</b>
+            <b class="variable">{/block:DayPagination}</b>
+        &lt;/div&gt;
+    &lt;/body&gt;
+&lt;/html&gt;</pre>
+
+    <!-- Tag Pages -->
+
+    <h2><a id="tag-pages">Tag Pages</a></h2>
+
+    <table>
+        <tbody>
+            <tr class="header">
+                <th>Variable</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <th>{block:TagPage} {/block:TagPage}</th>
+                <td>Rendered on tag pages.</td>
+            </tr>
+            <tr>
+                <th>{Tag}</th>
+                <td>The name of this tag.</td>
+            </tr>
+            <tr>
+                <th>{URLSafeTag}</th>
+                <td>A URL safe version of this tag.</td>
+            </tr>
+            <tr>
+                <th>{TagURL}</th>
+                <td>The tag page URL with other posts that share this tag.</td>
+            </tr>
+            <tr>
+                <th>{TagURLChrono}</th>
+                <td>The tag page URL with other posts that share this tag in chronological order.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h4 style="margin-bottom:-5px;">Example</h4>
+
+<pre>&lt;html&gt;
+    &lt;body&gt;
+        <b class="variable">{block:TagPage}</b>
+            &lt;h2&gt;Posts tagged &quot;<b class="variable">{Tag}</b>&quot;&lt;/h2&gt;
+        <b class="variable">{/block:TagPage}</b>
+
+        <b class="variable">{block:Posts}</b>
+            ...
+        <b class="variable">{/block:Posts}</b>
+    &lt;/body&gt;
+&lt;/html&gt;</pre>
+
+    <!-- Localization -->
+
+    <h2><a id="localization">Localization</a></h2>
+
+    <p>Localized theme strings allow your theme to appear in every language Tumblr supports. Simply replace any words or phrases in your theme with the appropriate variables. The full text will be output in the language designated in the blog's settings. <a href="/docs/en/localizing_themes"><strong>Check out the strings &rarr;</strong></a></p>
+
+    <!-- Search -->
+
+    <h2><a id="search">Search</a></h2>
+
+    <table>
+        <tbody>
+            <tr class="header">
+                <th>Variable</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <th>{SearchQuery}</th>
+                <td>The current search query.</td>
+            </tr>
+            <tr>
+                <th>{URLSafeSearchQuery}</th>
+                <td>A URL-safe version of the current search query for use in links and Javascript.</td>
+            </tr>
+            <tr>
+                <th>{block:SearchPage}</th>
+                <td>Rendered on search pages.</td>
+            </tr>
+            <tr>
+                <th>{SearchResultCount}</th>
+                <td>The number of results returned for the current search query.</td>
+            </tr>
+            <tr>
+               <th>{block:NoSearchResults}</th>
+               <td>Rendered if no search results were returned for the current search query.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h4 style="margin-bottom:-5px;">Example</h4>
+
+<pre>&lt;form action="/search" method="get"&gt;
+    &lt;input type="text" name="q" value="<b class="variable">{SearchQuery}</b>"/&gt;
+    &lt;input type="submit" value="Search"/&gt;
+&lt;/form&gt;</pre>
+
+    <!-- Following -->
+
+    <h2><a id="following">Following</a></h2>
+
+    <table>
+        <tbody>
+            <tr class="header">
+                <th>Variable</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <th>{block:Following} {/block:Following}</th>
+                <td>Rendered if you're following other blogs.</td>
+            </tr>
+            <tr>
+                <th>{block:Followed} {/block:Followed}</th>
+                <td>Rendered for each blog you're following.</td>
+            </tr>
+            <tr>
+                <th>{FollowedName}</th>
+                <td>The username of the blog you're following.</td>
+            </tr>
+            <tr>
+                <th>{FollowedTitle}</th>
+                <td>The title of the blog you're following.</td>
+            </tr>
+            <tr>
+                <th>{FollowedURL}</th>
+                <td>The URL for the blog you're following.</td>
+            </tr>
+            <tr>
+                <th>{FollowedPortraitURL-16}</th>
+                <td>Portrait photo URL for the blog you're following. 16-pixels by 16-pixels.</td>
+            </tr>
+            <tr>
+                <th>{FollowedPortraitURL-24}</th>
+                <td>Portrait photo URL for the blog you're following. 24-pixels by 24-pixels.</td>
+            </tr>
+            <tr>
+                <th>{FollowedPortraitURL-30}</th>
+                <td>Portrait photo URL for the blog you're following. 30-pixels by 30-pixels.</td>
+            </tr>
+            <tr>
+                <th>{FollowedPortraitURL-40}</th>
+                <td>Portrait photo URL for the blog you're following. 40-pixels by 40-pixels.</td>
+            </tr>
+            <tr>
+                <th>{FollowedPortraitURL-48}</th>
+                <td>Portrait photo URL for the blog you're following. 48-pixels by 48-pixels.</td>
+            </tr>
+            <tr>
+                <th>{FollowedPortraitURL-64}</th>
+                <td>Portrait photo URL for the blog you're following. 64-pixels by 64-pixels.</td>
+            </tr>
+            <tr>
+                <th>{FollowedPortraitURL-96}</th>
+                <td>Portrait photo URL for the blog you're following. 96-pixels by 96-pixels.</td>
+            </tr>
+            <tr>
+                <th>{FollowedPortraitURL-128}</th>
+                <td>Portrait photo URL for the blog you're following. 128-pixels by 128-pixels.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h4 style="margin-bottom:-5px;">Example</h4>
+
+<pre>
+<b>{block:Following}</b>
+    Blogs I follow:
+    &lt;ul>
+        <b>{block:Followed}</b>
+            &lt;li>
+                &lt;img src="<b>{FollowedPortraitURL-48}</b>"/>
+                &lt;a href="<b>{FollowedURL}</b>"><b>{FollowedName}</b>&lt;/a>
+            &lt;/li>
+        <b>{/block:Followed}</b>
+    &lt;/ul>
+<b>{/block:Following}</b>
+</pre>
+
+    <!-- Likes -->
+
+    <h2><a id="likes">Likes</a></h2>
+
+    <table>
+        <tbody>
+            <tr class="header">
+                <th>Variable</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <th>{block:Likes} {/block:Likes}</th>
+                <td>Rendered if you are <a href="/settings">sharing your likes</a>.</td>
+            </tr>
+            <tr>
+                <th>{Likes}</th>
+                <td>Standard HTML output of your likes.</td>
+            </tr>
+            <tr>
+                <th>{Likes limit="5"}</th>
+                <td>Standard HTML output of your last 5 likes.
+                <div class="note">Maximum: 10</div></td>
+            </tr>
+            <tr>
+                <th>{Likes width="200"}</th>
+                <td>Standard HTML output of your likes with Audio and Video players scaled to 200-pixels wide.
+                <div class="note">Scale images with CSS max-width or similar.</div></td>
+            </tr>
+            <tr>
+                <th>{Likes summarize="100"}</th>
+                <td>Standard HTML output of your likes with text summarize to 100-characters.
+                <div class="note">Maximum: 250</div></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h4 style="margin-bottom:-5px;">Example</h4>
+
+<pre>&lt;html&gt;
+    &lt;head&gt;
+        &lt;style type=&quot;text/css&quot;&gt;
+            ul#likes {
+                list-style-type: none;
+                margin: 0 0 0 0;
+                padding: 0 0 0 0;
+            }
+
+                li.like_post {
+                    /* <i>Should match the width specified in the Likes tag</i> */
+                    width: 150px;
+                    padding: 0 40px 0 0;
+                    float: left;
+                }
+
+                  li.like_post img {
+                      max-width: 100%;
+                  }
+
+                  li.like_post blockquote {
+                      margin: 0;
+                      padding: 0 0 0 10px;
+                      border-left: 1px solid #eee;
+                  }
+
+                  li.like_post ol,
+                  li.like_post ul {
+                      margin: 0 0 0 15px;
+                      padding: 0;
+                  }
+
+                  li.like_post .like_link a {
+                      font-weight: bold;
+                  }
+
+                  li.like_post .like_title {
+                      font-weight: bold;
+                  }
+
+                  li.like_post .post_info_bottom {
+                      margin: 10px 0 0 0;
+                      display: block !important;
+                  }
+        &lt;/style&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        ...
+
+        <b>{block:Likes}</b>
+            &lt;div id="likes_container"&gt;
+                &lt;h2&gt;Stuff I like&lt;/h2&gt;
+
+                <b>{Likes limit="5" summarize="100" width="150"}</b>
+
+                &lt;a href="http://www.tumblr.com/liked/by/<b>{Name}</b>"&gt;
+                    See more stuff I like
+                &lt;/a&gt;
+            &lt;/div&gt;
+        <b>{/block:Likes}</b>
+    &lt;/body&gt;
+&lt;/html&gt;</pre>
+
+    <!-- Appearance Options -->
+
+    <h2><a id="appearance-options">Appearance Options</a></h2>
+
+    <h3>Enabling Custom Colors</h3>
+
+    <p>By including the special meta-color tags in your theme, users can easily tweak those colors using the <strong>"Customize"</strong> screen.</p>
+
+    <h4 style="margin-bottom:-5px;">Example</h4>
+
+<pre>&lt;html&gt;
+    &lt;head&gt;
+        &lt;!-- DEFAULT COLORS --&gt;
+        &lt;meta name=&quot;color:Background&quot; content=&quot;#eee&quot;/&gt;
+        &lt;meta name=&quot;color:Content Background&quot; content=&quot;#fff&quot;/&gt;
+        &lt;meta name=&quot;color:Text&quot; content=&quot;#000&quot;/&gt;
+
+        &lt;style type=&quot;text/css&quot;&gt;
+            #content {
+                background-color: <b class="variable">{color:Content Background}</b>;
+                color: <b class="variable">{color:Text}</b>;
+            }
+        &lt;/style&gt;
+    &lt;/head&gt;
+    &lt;body bgcolor=&quot;<b class="variable">{color:Background}</b>&quot;&gt;
+        &lt;div id=&quot;content&quot;&gt;
+            ...
+        &lt;/div&gt;
+    &lt;/body&gt;
+&lt;/html&gt;</pre>
+
+    <h3>Enabling Custom Fonts</h3>
+
+    <p>By including the special meta-font tags in your theme, users can easily change those fonts using the "Customize" screen.</p>
+
+    <h4 style="margin-bottom:-5px;">Example</h4>
+
+<pre>&lt;html&gt;
+    &lt;head&gt;
+        &lt;!-- DEFAULT FONTS --&gt;
+        &lt;meta name=&quot;font:Title&quot; content=&quot;Helvetica Neue&quot;/&gt;
+        &lt;meta name=&quot;font:Body&quot; content=&quot;Arial, Helvetica, sans-serif&quot;/&gt;
+
+        &lt;style type=&quot;text/css&quot;&gt;
+            h1 {
+                font: 30px <b class="variable">{font:Title}</b>;
+            }
+
+            #content {
+                font: 12px <b class="variable">{font:Body}</b>;
+            }
+        &lt;/style&gt;
+    &lt;/head&gt;
+    ...
+&lt;/html&gt;</pre>
+
+    <h3>Enabling Booleans</h3>
+
+    <p>By including the special meta-if tags in your theme, users can easily toggle options you define.  This is useful for showing or hiding different widgets or design elements.</p>
+
+    <h4 style="margin-bottom:-5px;">Example</h4>
+
+<pre>&lt;html&gt;
+    &lt;head&gt;
+        &lt;!-- DEFAULTS --&gt;
+        &lt;meta name=&quot;if:Show people I follow&quot; content=&quot;1&quot;/&gt;
+        &lt;meta name=&quot;if:Reverse pagination&quot; content=&quot;0&quot;/&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        <b class="variable">{block:IfNotReversePagination}</b>
+            &lt;a href="..."&gt;Previous&lt;/a&gt; &lt;a href="..."&gt;Next&lt;/a&gt;
+        <b class="variable">{/block:IfNotReversePagination}</b>
+
+        <b class="variable">{block:IfReversePagination}</b>
+            &lt;a href="..."&gt;Next&lt;/a&gt; &lt;a href="..."&gt;Previous&lt;/a&gt;
+        <b class="variable">{/block:IfReversePagination}</b>
+
+        <b class="variable">{block:IfShowPeopleIFollow}</b>
+            &lt;div id="following"&gt;...&lt;/div&gt;
+        <b class="variable">{/block:IfShowPeopleIFollow}</b>
+    &lt;/body&gt;
+&lt;/html&gt;</pre>
+
+    <h3>Enabling Custom Text</h3>
+
+    <p>By including the special meta-text tags in your theme, users can easily configure text variables you define.  This is useful for adjusting text or configuring widgets that require information from the user.</p>
+
+    <h4 style="margin-bottom:-5px;">Example</h4>
+
+<pre>&lt;html&gt;
+    &lt;head&gt;
+        &lt;!-- DEFAULT TEXT --&gt;
+        &lt;meta name=&quot;text:Flickr Username&quot; content=&quot;&quot;/&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        <b class="variable">{block:IfFlickrUsername}</b>
+            &lt;div id="flickr_widget"&gt;
+                &lt;script type="text/javascript"
+                src="http://flickr.com/widget?user=<b class="variable">{text:Flickr Username}</b>"&gt;
+                &lt;/script&gt;
+            &lt;/div&gt;
+        <b class="variable">{/block:IfFlickrUsername}</b>
+    &lt;/body&gt;
+&lt;/html&gt;</pre>
+
+    <h3>Enabling Custom Images</h3>
+
+    <p>By including the special meta-image tags in your theme, users can easily use custom images without editing your theme.  Image variables (e.g., <code>{image:Logo}</code>&nbsp;) will return a 1-pixel transparent square if no image is set.</p>
+
+    <h4 style="margin-bottom:-5px;">Example</h4>
+
+<pre>&lt;html&gt;
+    &lt;head&gt;
+        &lt;!-- DEFAULT IMAGE --&gt;
+        &lt;meta name=&quot;image:Background&quot; content=&quot;http://static.tumblr.com/...&quot;/&gt;
+        &lt;meta name=&quot;image:Header&quot; content=&quot;&quot;/&gt;
+
+        &lt;style type=&quot;text/css&quot;&gt;
+            body {
+                background: #2D567C url('<b class="variable">{image:Background}</b>');
+            }
+        &lt;/style&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        <b class="variable">{block:IfHeaderImage}</b>&lt;img src="<b class="variable">{image:Header}</b>"/&gt;<b class="variable">{/block:IfHeaderImage}</b>
+        <b class="variable">{block:IfNotHeaderImage}</b>&lt;h1&gt;<b class="variable">{Title}</b>&lt;/h1&gt;<b class="variable">{/block:IfNotHeaderImage}</b>
+    &lt;/body&gt;
+&lt;/html&gt;</pre>
+
+    <h3>Enabling Custom CSS</h3>
+
+    <p>By including the <code>{CustomCSS}</code> tag at the bottom of your theme's CSS style block, users you share your theme with will be able to tweak the appearance of your theme without editing its markup.</p>
+
+    <h4 style="margin-bottom:-5px;">Example</h4>
+
+<pre>&lt;html&gt;
+    &lt;head&gt;
+        &lt;style type=&quot;text/css&quot;&gt;
+            #content {
+                background-color: #fff;
+                color: #000;
+            }
+
+            <b class="variable">{CustomCSS}</b>
+        &lt;/style&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;div id=&quot;content&quot;&gt;
+            ...
+        &lt;/div&gt;
+    &lt;/body&gt;
+&lt;/html&gt;</pre>
+
+    <!-- Twitter -->
+
+    <h2><a id="twitter">Twitter</a><tag></tag></h2>
+
+    <p>If you've enabled Twitter integration in your Tumblr preferences, you can include the <code>/tweets.js</code> Javascript file on your primary blog to display your recent tweets.  This file runs the callback function <code>recent_tweets()</code>, sending the Twitter API JSON data as its only parameter.</p>
+
+    <table>
+        <tbody>
+            <tr class="header">
+                <th>Variable</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <th>{block:Twitter} {/block:Twitter}</th>
+                <td>Rendered if you have Twitter integration enabled.</td>
+            </tr>
+            <tr>
+                <th>{TwitterUsername}</th>
+                <td>Your Twitter username.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h4 style="margin-bottom:-5px;">Example</h4>
+
+<pre>
+<b>{block:Twitter}</b>
+    &lt;div id="twitter" style="display:none;"&gt;
+        &lt;h3&gt;&lt;a href="http://twitter.com/<b>{TwitterUsername}</b>">Latest Tweets&lt;/a&gt;&lt;/h3&gt;
+
+        &lt;div id="tweets"&gt;&lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;script type="text/javascript"&gt;
+        function recent_tweets(data) {
+            for (i=0; i&lt;data.length; i++) {
+                document.getElementById("tweets").innerHTML =
+                    document.getElementById("tweets").innerHTML +
+                    '&lt;a href="http://twitter.com/<b>{TwitterUsername}</b>/status/' +
+                    (data[i].id_str ? data[i].id_str : data[i].id) +
+                    '"&gt;&lt;div class="content"&gt;' + data[i].text +
+                    '&lt;/div&gt;&lt;/a&gt;';
+            }
+            document.getElementById("twitter").style.display = 'block';
+        }
+    &lt;/script&gt;
+<b>{/block:Twitter}</b>
+
+&lt;!-- Put this at the bottom of the page --&gt;
+<b>{block:Twitter}</b>
+    &lt;script type="text/javascript" src="<b>/tweets.js</b>"&gt;&lt;/script&gt;
+<b>{/block:Twitter}</b>
+</pre>
+
+    <!-- iPhone Themes -->
+
+    <h2><a id="iphone-themes">iPhone Themes</a></h2>
+
+    <p>Tumblr blogs automatically use optimized layouts when browsing on mobile devices. The <a href="http://staff.tumblr.com/post/536753754/optimized-iphone-layout">iPhone layout</a> can be overridden by adding a <em>Custom Layout</em> Page (via <a href="/customize">Customize</a>) to your blog with the URL <code><a href="http://staff.tumblr.com/post/536864688/customize-your-mobile-themes">/iphone-theme</a></code>.</p>
+
+    <!-- Variable Transformations -->
+
+    <h2><a id="variable-transformations">Variable Transformations</a></h2>
+
+    <p>By prefixing variables with special transformation keywords, Tumblr will output variables in specialized formats &mdash; useful when passing data to Javascript, etc. Tumblr currently supports five transformations:</p>
+
+    <table>
+        <tbody>
+            <tr class="header">
+                <th>Variable</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <th>Plaintext</th>
+                <td>Prefix any theme variable with <code>Plaintext</code> to output the string with HTML-tags stripped and appropriate characters converted to HTML-entities so they’re safe to include in HTML attributes, etc..</td>
+            </tr>
+            <tr>
+                <th>Javascript</th>
+                <td>Prefix any theme variable with <code>JS</code> to output a Javascript string (wrapped in quotes).</td>
+            </tr>
+            <tr>
+                <th>Javascript Plaintext</th>
+                <td>Prefix any theme variable with <code>JSPlaintext</code> to output a Javascript string (wrapped in quotes) with HTML-tags stripped and appropriate characters converted to HTML-entities.</td>
+            </tr>
+            <tr>
+                <th>URLEncoded</th>
+                <td>Prefix any theme variable with <code>URLEncoded</code> to output a URL encoded string.</td>
+            </tr>
+            <tr>
+                <th>RGB</th>
+                <td>Prefix a color variable with <code>RGB</code> to convert the hex output to RGB.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h4 style="margin-bottom:-5px;">Example</h4>
+
+<pre style="margin-bottom:0;">&lt;a href="<b>{URL}</b>" title="<b>{PlaintextName}</b>"><b>{Name}</b>&lt/a>
+
+&lt;script type="text/javascript">
+    var description      = <b>{JSDescription}</b>;
+    var description_text = <b>{JSPlaintextDescription}</b>;
+&lt;/script>
+
+&lt;a href="http://digg.com/submit?url=<b>{URLEncodedPermalink}</b>">Digg this&lt;/a></pre>
+
+</div>
+<div class="clear"></div>
+                </div>                <img src="http://assets.tumblr.com/images/content_bottom.png?alpha" alt="" content="content_cap" id="content_bottom"/>
+                
+                
+                <div id="footer" >
+                    <div>
+                        <div id="footer">
+     <div>
+          <strong>&copy; Tumblr, Inc.</strong>
+          <a href="/help">Help</a>
+          <a href="/about">About</a>
+                    <a href="/developers">Developers</a>
+          <a href="/themes/" title="Tumblr Themes">Themes</a>
+          <a href="/meetups">Meetups</a>
+          <a href="/jobs" onclick="this.href = '/jobs?Tumblr+Footer';">Jobs</a>
+          <a href="/policy">Terms</a>
+          <a href="/policy/en/terms_of_service?dmca">Copyright</a>
+     </div>
+</div>                    </div>
+                                    </div>
+
+            </div>
+                        
+            
+        </div> 
+        <script type="text/javascript">
+                        Tumblr.auto_paginate = false;
+            Tumblr.enable_dashboard_key_commands = false;
+            Tumblr.animate_scroll = true;
+            Tumblr.KeyCommands = new Tumblr.KeyCommandsConstructor();
+            start_processing_image_queue();
+            var default_search_text = 'Search Tumblr';
+                    </script>
+
+        
+
+    <script type="text/javascript">
+        __qoptions = _qoptions = { qacct: 'p-19UtqE8ngoZbM' };
+    </script>
+    <script type="text/javascript" src="http://edge.quantserve.com/quant.js"></script>
+    <noscript>
+        <img src="http://pixel.quantserve.com/pixel/p-19UtqE8ngoZbM.gif"
+        style="display:none; border-width:0px; height:1px; width:1px;"/>
+    </noscript>
+
+        
+            </body>
+</html>
