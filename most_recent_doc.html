@@ -11,6 +11,7 @@
             &nbsp; &nbsp; &nbsp; <a href="#reblogs">Reblogs</a><br/>
             &nbsp; &nbsp; &nbsp; <a href="#text-posts">Text Posts</a><br/>
             &nbsp; &nbsp; &nbsp; <a href="#photo-posts">Photo Posts</a><br/>
+            &nbsp; &nbsp; &nbsp; <a href="#panorama-posts">Panorama Posts</a><br/>
             &nbsp; &nbsp; &nbsp; <a href="#photoset-posts">Photoset Posts</a><br/>
             &nbsp; &nbsp; &nbsp; <a href="#quote-posts">Quote Posts</a><br/>
             &nbsp; &nbsp; &nbsp; <a href="#link-posts">Link Posts</a><br/>
@@ -131,6 +132,18 @@
                         <b class="variable">{/block:Caption}</b>
                     &lt;/li&gt;
                 <b class="variable">{/block:Photo}</b>
+
+                <b class="variable">{block:Panorama}</b>
+                    &lt;li class=&quot;post panorama&quot;&gt;
+                        <b class="variable">{LinkOpenTag}</b>
+                            &lt;img src=&quot;<b class="variable">{PhotoURL-Panorama}</b>&quot; alt=&quot;<b class="variable">{PhotoAlt}</b>&quot;/&gt;
+                        <b class="variable">{LinkCloseTag}</b>
+
+                        <b class="variable">{block:Caption}</b>
+                            &lt;div class=&quot;caption&quot;&gt;<b class="variable">{Caption}</b>&lt;/div&gt;
+                        <b class="variable">{/block:Caption}</b>
+                    &lt;/li&gt;
+                <b class="variable">{/block:Panorama}</b>
 
                 <b class="variable">{block:Photoset}</b>
                     &lt;li class=&quot;post photoset&quot;&gt;
@@ -522,6 +535,10 @@
                 <td>Rendered for Photo posts.</td>
             </tr>
             <tr>
+                <th>{block:Panorama} {/block:Panorama}</th>
+                <td>Rendered for Panorama posts.</td>
+            </tr>
+            <tr>
                 <th>{block:Photoset} {/block:Photoset}</th>
                 <td>Rendered for Photoset posts.</td>
             </tr>
@@ -769,13 +786,18 @@
                 <td>The caption for this post.</td>
             </tr>
             <tr>
+                <th>{block:LinkURL}</th>
+                <td>Rendered if this photo has a click-through set.</td>
+            </tr>
+            <tr>
                 <th>{LinkURL}</th>
-                <td>A click-through URL for this photo if set.</td>
+                <td>A click-through URL for this photo.
+                    <div class="note">Defaults to media permalink if one is not set.</div></td>
             </tr>
             <tr>
                 <th>{LinkOpenTag}</th>
                 <td>An HTML open anchor-tag including the click-through URL if set.
-                    <div class="note">Example: <code>&lt;a href="http://..."&gt;</a> </code></div></td>
+                    <div class="note">Example: <code>&lt;a href="http://..."&gt;</code></div></td>
             </tr>
             <tr>
                 <th>{LinkCloseTag}</th>
@@ -836,11 +858,12 @@
             </tr>
             <tr>
                 <th>{block:HighRes} {/block:HighRes}</th>
-                <td>Rendered if there is a high-res photo for a post.</td>
+                <td>Rendered if there is a high-res or panorama photo for a post.</td>
             </tr>
             <tr>
                 <th>{PhotoURL-HighRes}</th>
-                <td>URL for the high-res photo of this post. No wider than 1280px.</td>
+                <td>URL for the high-res or panorama sized photo of this post. No wider than 1280px or 2560px respectively.
+                    <div class="note">Use <code>{PhotoURL-1280}</code>, <code>{PhotoWidth-1280}</code>, and <code>{PhotoHeight-1280}</code> to access the 1280 media directly.</div></td>
             </tr>
             <tr>
                 <th>{PhotoWidth-HighRes}</th>
@@ -849,7 +872,7 @@
             <tr>
                 <th>{PhotoHeight-HighRes}</th>
                 <td>Height for the high-res size photo.</td>
-            </tr
+            </tr>
             <tr>
                 <th>{block:Exif} {/block:Exif}</th>
                 <td>Rendered if this photo has Exif data.</td>
@@ -914,7 +937,56 @@
     <b class="variable">{/block:Caption}</b>
 <b class="variable">{/Block:Photo}</b></pre>
 
-    <!-- Text -->
+    <!-- Panorama -->
+
+    <h3><a id="panorama-posts">Panorama Posts</a></h3>
+    <p>
+        The template tags defined for <code>{block:Photo}</code> are also
+        available to <code>{block:Panorama}</code>, with the following additions:
+    </p>
+    
+    <table>
+        <tbody>
+            <tr class="header">
+                <th>Variable</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <th>{LinkOpenTag}</th>
+                <td>An HTML open anchor-tag with Javascript to activate the Panorama lightbox.</td>
+            </tr>
+            <tr>
+                <th>{LinkCloseTag}</th>
+                <td>A closing anchor-tag.</td>
+            </tr>
+            <tr>
+                <th>{PhotoURL-Panorama}</th>
+                <td>URL for the panorama photo of this post.
+                    <div class="note">These images can be very big. (2560+ pixels wide)</div></td>
+            </tr>
+            <tr>
+                <th>{PhotoWidth-Panorama}</th>
+                <td>Width for the panorama size photo.</td>
+            </tr>
+            <tr>
+                <th>{PhotoHeight-Panorama}</th>
+                <td>Height for the panorama size photo.</td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <h4 style="margin-bottom:-5px;">Example</h4>
+
+    <pre>
+<b class="variable">{block:Panorama}</b>
+    <b class="variable">{LinkOpenTag}</b>&lt;img src=&quot;<b class="variable">{PhotoURL-Panorama}</b>&quot; alt=&quot;<b class="variable">{PhotoAlt}</b>&quot; /&gt;<b class="variable">{LinkCloseTag}</b>
+
+    <b class="variable">{block:Caption}</b>
+        <b class="variable">{Caption}</b>
+    <b class="variable">{/block:Caption}</b>
+<b class="variable">{/block:Panorama}</b>
+</pre>
+    <!-- Photoset -->
 
     <h3><a id="photoset-posts">Photoset Posts</a></h3>
 
@@ -972,7 +1044,8 @@
     <pre>
 <b class="variable">{block:Photoset}</b>
     <b class="variable">{block:Photos}</b>
-        &lt;img src=&quot;<b class="variable">{PhotoURL-500}</b>&quot; width=&quot;<b class="variable">{PhotoWidth-500}</b>&quot; height=&quot;<b class="variable">{PhotoHeight-500}</b>&quot; /&gt;
+        &lt;img src=&quot;<b class="variable">{PhotoURL-500}</b>&quot;
+            width=&quot;<b class="variable">{PhotoWidth-500}</b>&quot;height=&quot;<b class="variable">{PhotoHeight-500}</b>&quot; /&gt;
         
         <b class="variable">{block:Caption}</b>
             <b class="variable">{Caption}</b>
@@ -1992,7 +2065,7 @@
 
     <h2><a id="localization">Localization</a></h2>
 
-    <p>Localized theme strings allow your theme to appear in every language Tumblr supports. Simply replace any words or phrases in your theme with the appropriate variables. The full text will be output in the language designated in the blog's settings. <a href="/docs/en/localizing_themes"><strong>Check out the strings &rarr;</strong></a></p>
+    <p>Localized theme strings allow your theme to appear in every language Tumblr supports. Simply replace any words or phrases in your theme with the appropriate variables. The full text will be output in the language designated in the blog's settings. <a href="/docs/localizing_themes"><strong>Check out the strings &rarr;</strong></a></p>
 
     <!-- Search -->
 
@@ -2477,30 +2550,110 @@
 
 </div>
 <div class="clear"></div>
-                </div>                <img src="http://assets.tumblr.com/images/content_bottom.png?alpha" alt="" content="content_cap" id="content_bottom"/>
+            </div>
 
-                
-                <div id="footer" >
-                    <div>
-                        <div id="footer">
-     <div>
+            
+                            <div id="footer" >
+                    <ul class="footer_links">
+
+     <li class="footer_link">
           <strong>&copy; Tumblr, Inc.</strong>
-          <a href="/help">Help</a>
-          <a href="/about">About</a>
-                    <a href="/developers">Developers</a>
-          <a href="/themes/" title="Tumblr Themes">Themes</a>
-          <a href="/meetups">Meetups</a>
-          <a href="/jobs" onclick="this.href = '/jobs?Tumblr+Footer';">Jobs</a>
-          <a href="/policy">Terms</a>
-          <a href="/policy/en/terms_of_service?dmca">Copyright</a>
-     </div>
-</div>                    </div>
-                                    </div>
+     </li>
 
+     <li class="footer_link">
+          <a href="/help">Help</a>
+     </li>
+
+     <li class="footer_link">
+          <a href="/about">About</a>
+     </li>
+
+     
+     <li class="footer_link">
+          <a href="/developers">Developers</a>
+     </li>
+
+     <li class="footer_link">
+          <a href="/themes/" title="Tumblr Themes">Themes</a>
+     </li>
+
+     <li class="footer_link">
+          <a href="/meetups">Meetups</a>
+     </li>
+
+     <li class="footer_link">
+          <a href="/jobs" onclick="this.href = '/jobs?Tumblr+Footer';">Jobs</a>
+     </li>
+
+     <li class="footer_link" id="popover_legal">
+          
+<a class=" popover_legal_link" href="/policy/en/terms_of_service" >Legal</a>
+<div class="popover popover_menu popover_gradient nipple_on_bottom popover_legal">
+    <ul class="popover_inner">
+        <li class="popover_menu_item"><a href="/policy/en/terms_of_service" >Terms</a></li>
+        <li class="popover_menu_item"><a href="/policy/en/terms_of_service#dmca" >Copyright</a></li>
+    </ul>
+</div>
+     </li>
+
+     <li class="footer_link">
+          <a href="/policy/en/privacy">Privacy</a>
+     </li>
+
+                    <li class="footer_link">
+               <div class="language_switcher en_US" id="language_switcher">
+    <span class="language_icon" title="Choose your language"></span>
+    <div class="popover popover_menu popover_gradient nipple_on_bottom">
+        <ul class="languages popover_inner">
+                                                <li class="popover_menu_item item current">
+                        <a href="?language=en_US" data-lang="en_US" title="English">English</a>
+                    </li>
+                                                                <li class="popover_menu_item item">
+                        <a href="?language=de_DE" data-lang="de_DE" title="German">Deutsch</a>
+                    </li>
+                                                                <li class="popover_menu_item item">
+                        <a href="?language=fr_FR" data-lang="fr_FR" title="French">Français</a>
+                    </li>
+                                                                <li class="popover_menu_item item">
+                        <a href="?language=it_IT" data-lang="it_IT" title="Italian">Italiano</a>
+                    </li>
+                                                                <li class="popover_menu_item item">
+                        <a href="?language=ja_JP" data-lang="ja_JP" title="Japanese">日本語</a>
+                    </li>
+                                                                <li class="popover_menu_item item">
+                        <a href="?language=tr_TR" data-lang="tr_TR" title="Turkish">Türkçe</a>
+                    </li>
+                                                                <li class="popover_menu_item item">
+                        <a href="?language=es_ES" data-lang="es_ES" title="Spanish">Español</a>
+                    </li>
+                                                                <li class="popover_menu_item item">
+                        <a href="?language=ru_RU" data-lang="ru_RU" title="Russian">Pусский</a>
+                    </li>
+                                                                <li class="popover_menu_item item">
+                        <a href="?language=pl_PL" data-lang="pl_PL" title="Polish">Polski</a>
+                    </li>
+                                                                <li class="popover_menu_item item">
+                        <a href="?language=pt_PT" data-lang="pt_PT" title="Portuguese (PT)">Português (PT)</a>
+                    </li>
+                                                                <li class="popover_menu_item item">
+                        <a href="?language=pt_BR" data-lang="pt_BR" title="Portuguese (BR)">Português (BR)</a>
+                    </li>
+                                                                <li class="popover_menu_item item">
+                        <a href="?language=nl_NL" data-lang="nl_NL" title="Dutch">Nederlands</a>
+                    </li>
+                                    </span>
+    </div>
+    <form method="post" action="/set_language" id="set_language">
+        <input type="hidden" name="language" id="language_selected"/>
+        <input type="hidden" name="redirect_to" id="language_redirect_to" value="/docs/en/custom_themes"/>
+    </form>
+</div>          </li>
+     
+</ul>                </div>            
             </div>
                         
-            
         </div> 
+        
         <script type="text/javascript">
                         Tumblr.auto_paginate = false;
             Tumblr.enable_dashboard_key_commands = false;
@@ -2520,6 +2673,15 @@
         <img src="http://pixel.quantserve.com/pixel/p-19UtqE8ngoZbM.gif"
         style="display:none; border-width:0px; height:1px; width:1px;"/>
     </noscript>
+
+    <script type="text/javascript">
+        var _comscore = _comscore || [];
+        _comscore.push(
+            { c1: "2", c2: '15742520' }
+        );
+        (function(){ var s = document.createElement("script"), el = document.getElementsByTagName("script")[0]; s.async = true; s.src = (document.location.protocol == "https:" ? "https://sb" : "http://b") + ".scorecardresearch.com/beacon.js"; el.parentNode.insertBefore(s, el); })();
+    </script>
+    <noscript><img src="http://b.scorecardresearch.com/p?c1=2&c2=15742520&cv=2.0&cj=1" /></noscript>
 
             </body>
 </html>
