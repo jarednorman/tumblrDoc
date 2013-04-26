@@ -30,6 +30,7 @@
         <a href="#search">Search</a><br/>
         <a href="#following">Following</a><br/>
         <a href="#likes">Likes</a><br/>
+        <a href="#like_and_reblog_buttons">Like and Reblog buttons</a><br/>
         <a href="#appearance-options">Appearance Options</a><br/>
         <a href="#twitter">Twitter</a><br/>
         <a href="#iphone-themes">iPhone Themes</a><br/>
@@ -37,7 +38,7 @@
     </div>
 </div>
 
-<div id="left_column" style="width:600px;">
+<div id="left_column" class="left_column" style="width:600px;">
     <h1>
         How to create a custom HTML theme
     </h1>
@@ -2289,6 +2290,117 @@
     &lt;/body&gt;
 &lt;/html&gt;</pre>
 
+    <!-- Like button -->
+    
+    <h2><a id="like_and_reblog_buttons">Like and Reblog buttons</a></h2>
+    
+    <h3><a id="like_button">Like Button</a></h3>
+    
+    <table>
+        <tbody>
+            <tr class="header">
+                <th width="180">Variable</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <th>{LikeButton}</th>
+                <td>Default Like button</td>
+            </tr>
+            <tr>
+                <th>{LikeButton color="grey"}</th>
+                <td>Like button color
+                    <div class="note">Grey, White, or Black. Like button will always be red if visitor has liked the post.</div></td>
+            </tr>
+            <tr>
+                <th>{LikeButton size="20"}</th>
+                <td>Like button size
+                <div class="note">Maximum: 100</div></td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <h3><a id="reblog_button">Reblog Button</a></h3>
+    
+    <table>
+        <tbody>
+            <tr class="header">
+                <th width="180">Variable</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <th>{ReblogButton}</th>
+                <td>Default Reblog button</td>
+            </tr>
+            <tr>
+                <th>{ReblogButton color="grey"}</th>
+                <td>Like button color
+                    <div class="note">Grey, White, or Black.</div></td>
+            </tr>
+            <tr>
+                <th>{ReblogButton size="20"}</th>
+                <td>Like button size
+                <div class="note">Maximum: 100</div></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h4 style="margin-bottom:-5px;">Example</h4>
+
+<pre>&lt;html&gt;
+    &lt;head&gt;
+        &lt;style type=&quot;text/css&quot;&gt;
+            .like_and_reblog_buttons {
+                border: 1px solid #e8e8e8;
+                border-radius: 3px;
+                list-style: none;
+            }
+
+            .like_and_reblog_buttons li {
+                float: left;
+                margin: 0;
+                padding: 7px 15px;
+                height: 20px;
+            }
+
+            .like_and_reblog_buttons li:first-child {
+                border-right: 1px solid #e8e8e8;
+            }
+        &lt;/style&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        ...
+
+        <b>{block:Posts}</b>
+          ...
+          &lt;ul class=&quot;like_and_reblog_buttons&quot;&gt;
+              &lt;li&gt;<b>{ReblogButton}</b>&lt;/li&gt;
+              &lt;li&gt;<b>{LikeButton}</b>&lt;/li&gt;
+          &lt;/ul&gt;
+        <b>{/block:Posts}</b>
+
+        ...
+    &lt;/body&gt;
+&lt;/html&gt;</pre>
+
+<p>If your theme uses infinite scrolling or some other form of AJAX pagination, you must request the like status of the new posts once the page is loaded or inserted:</p>
+
+<table>
+    <tbody>
+        <tr class="header">
+            <th>Function</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <th>Tumblr.LikeButton.get_status_by_page(n)</th>
+            <td>Call this function after requesting a new page of Posts. Takes the page number that was just loaded as an integer.</td>
+        </tr>
+        <tr>
+            <th>Tumblr.LikeButton.get_status_by_post_ids([n,n,n])</th>
+            <td>Request Like status for individual posts. Takes an array of post IDs.</td>
+        </tr>
+    </tbody>
+</table>
+
     <!-- Appearance Options -->
 
     <h2><a id="appearance-options">Appearance Options</a></h2>
@@ -2550,14 +2662,17 @@
 
 </div>
 <div class="clear"></div>
-            </div>
+            </div><img src="http://assets.tumblr.com/images/content_bottom.png?alpha" alt="" class="content_cap content_bottom" id="content_bottom"/>
 
             
+            
+        </div>
+        <div id="footer_container" class="clearfix">
                             <div id="footer" >
                     <ul class="footer_links">
 
      <li class="footer_link">
-          <strong>&copy; Tumblr, Inc.</strong>
+          <strong><a href="/" title="Tumblr">&copy; Tumblr, Inc.</a></strong>
      </li>
 
      <li class="footer_link">
@@ -2568,7 +2683,10 @@
           <a href="/about">About</a>
      </li>
 
-     
+     <li class="footer_link">
+          <a href="/apps">Apps</a>
+     </li>
+
      <li class="footer_link">
           <a href="/developers">Developers</a>
      </li>
@@ -2600,6 +2718,7 @@
           <a href="/policy/en/privacy">Privacy</a>
      </li>
 
+     
                     <li class="footer_link">
                <div class="language_switcher en_US" id="language_switcher">
     <span class="language_icon" title="Choose your language"></span>
@@ -2612,7 +2731,7 @@
                         <a href="?language=de_DE" data-lang="de_DE" title="German">Deutsch</a>
                     </li>
                                                                 <li class="popover_menu_item item">
-                        <a href="?language=fr_FR" data-lang="fr_FR" title="French">Français</a>
+                        <a href="?language=fr_FR" data-lang="fr_FR" title="French">Fran&ccedil;ais</a>
                     </li>
                                                                 <li class="popover_menu_item item">
                         <a href="?language=it_IT" data-lang="it_IT" title="Italian">Italiano</a>
@@ -2621,10 +2740,10 @@
                         <a href="?language=ja_JP" data-lang="ja_JP" title="Japanese">日本語</a>
                     </li>
                                                                 <li class="popover_menu_item item">
-                        <a href="?language=tr_TR" data-lang="tr_TR" title="Turkish">Türkçe</a>
+                        <a href="?language=tr_TR" data-lang="tr_TR" title="Turkish">T&uuml;rk&ccedil;e</a>
                     </li>
                                                                 <li class="popover_menu_item item">
-                        <a href="?language=es_ES" data-lang="es_ES" title="Spanish">Español</a>
+                        <a href="?language=es_ES" data-lang="es_ES" title="Spanish">Espa&ntilde;ol</a>
                     </li>
                                                                 <li class="popover_menu_item item">
                         <a href="?language=ru_RU" data-lang="ru_RU" title="Russian">Pусский</a>
@@ -2633,10 +2752,10 @@
                         <a href="?language=pl_PL" data-lang="pl_PL" title="Polish">Polski</a>
                     </li>
                                                                 <li class="popover_menu_item item">
-                        <a href="?language=pt_PT" data-lang="pt_PT" title="Portuguese (PT)">Português (PT)</a>
+                        <a href="?language=pt_PT" data-lang="pt_PT" title="Portuguese (PT)">Portugu&ecirc;s (PT)</a>
                     </li>
                                                                 <li class="popover_menu_item item">
-                        <a href="?language=pt_BR" data-lang="pt_BR" title="Portuguese (BR)">Português (BR)</a>
+                        <a href="?language=pt_BR" data-lang="pt_BR" title="Portuguese (BR)">Portugu&ecirc;s (BR)</a>
                     </li>
                                                                 <li class="popover_menu_item item">
                         <a href="?language=nl_NL" data-lang="nl_NL" title="Dutch">Nederlands</a>
@@ -2647,22 +2766,17 @@
         <input type="hidden" name="language" id="language_selected"/>
         <input type="hidden" name="redirect_to" id="language_redirect_to" value="/docs/en/custom_themes"/>
     </form>
-</div>          </li>
+</div>
+          </li>
      
-</ul>                </div>            
-            </div>
-                        
-        </div> 
-        
-        <script type="text/javascript">
-                        Tumblr.auto_paginate = false;
-            Tumblr.enable_dashboard_key_commands = false;
-            Tumblr.animate_scroll = true;
-            Tumblr.KeyCommands = new Tumblr.KeyCommandsConstructor();
-            start_processing_image_queue();
-            var default_search_text = 'Search Tumblr';
-                    </script>
+</ul>                </div>                    </div>
 
+                
+        
+                
+                                    
+                
+                
         
 
     <script type="text/javascript">
@@ -2681,7 +2795,40 @@
         );
         (function(){ var s = document.createElement("script"), el = document.getElementsByTagName("script")[0]; s.async = true; s.src = (document.location.protocol == "https:" ? "https://sb" : "http://b") + ".scorecardresearch.com/beacon.js"; el.parentNode.insertBefore(s, el); })();
     </script>
-    <noscript><img src="http://b.scorecardresearch.com/p?c1=2&c2=15742520&cv=2.0&cj=1" /></noscript>
+    <noscript><img src="http://b.scorecardresearch.com/p?c1=2&c2=15742520&amp;cv=2.0&amp;cj=1" /></noscript>
 
-            </body>
+    <script type="text/javascript">var s=new Image(1,1);s.src=((r='http://www.tumblr.com/impixu?T=1367006961&J=eyJ0eXBlIjoidXJsIiwidXJsIjoiaHR0cDpcL1wvd3d3LnR1bWJsci5jb21cL2RvY3NcL2VuXC9jdXN0b21fdGhlbWVzIiwicmVxdHlwZSI6MH0=&U=NIJJHODJKI&K=d8fa20232693d0759e9d94d92e6f33c65fad515fd43e0267a72de4ee09b7fe41&R='.replace(/&R=[^&$]*/,'')) + ('&R='+escape(document.referrer)).substr(0, 2000-r.length).replace(/%.?.?$/,''));</script><noscript><img style="position:absolute;z-index:-3334;top:0px;left:0px;visibility:hidden;" src="http://www.tumblr.com/impixu?T=1367006961&J=eyJ0eXBlIjoidXJsIiwidXJsIjoiaHR0cDpcL1wvd3d3LnR1bWJsci5jb21cL2RvY3NcL2VuXC9jdXN0b21fdGhlbWVzIiwicmVxdHlwZSI6MCwibm9zY3JpcHQiOjF9&U=NIJJHODJKI&K=8d853261e59334fee1f7f49c46322ad11c9e471d9a9e54d3c300ec6576c45cf9&R="></noscript>
+        
+        
+        
+        <script type="text/javascript" src="http://assets.tumblr.com/assets/scripts/developers_floating_menu.js?58f9b050707f7496d40e08a97a619477"></script>
+<script type="text/javascript" src="http://assets.tumblr.com/assets/scripts/audio_player.js?5b1e8e3698f3de66bafa5f966b781d5f"></script>
+        
+        <script type="text/javascript">
+
+    var dialog_translations = {
+        'Ok': 'Ok',
+        'Cancel': 'Cancel'    };
+
+    jQuery(document).ready(function($){
+
+        // Add translations to Tumblr.Dialog
+        if (_.isObject(Tumblr.Dialog)) {
+            Tumblr.Dialog.add_translations(dialog_translations);
+        }
+        
+    });
+    
+</script>
+        <script>
+            if (jQuery('#search_query').val()) new Tumblr.TagFieldView();
+            new Tumblr.SearchPopover({ 'promo' : false });
+                                    Tumblr.auto_paginate = false;
+            Tumblr.enable_dashboard_key_commands = false;
+            Tumblr.animate_scroll = true;
+            Tumblr.KeyCommands = new Tumblr.KeyCommandsConstructor();
+            start_processing_image_queue();
+            var default_search_text = 'Search Tumblr';
+                    </script>
+    </body>
 </html>
